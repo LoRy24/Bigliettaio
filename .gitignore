@@ -3,4 +3,4 @@
 /.idea/
 
 # Output programs .exe
-./out/*.exe
+/out/*.exe
