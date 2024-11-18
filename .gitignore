@@ -1,0 +1,6 @@
+# VSCode and idea
+/.vscode/
+/.idea/
+
+# Output programs .exe
+./out/*.exe
