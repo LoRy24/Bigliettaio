@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <stdint.h>
 
 #pragma endregion
 
@@ -18,6 +19,21 @@
 
 // Impostazioni dei form
 #define FORM_WIDTH                          50
+
+#pragma endregion
+
+#pragma region Strutture
+
+typedef struct {
+    uint64_t ticketId;
+    uint32_t eventId;
+    uint32_t seat;
+    uint16_t price;
+    char name[50];
+    char surname[50];
+    char email[50];
+    char phone[20];
+} Ticket;
 
 #pragma endregion
 
@@ -49,6 +65,11 @@ void printWhiteSpace();
  * racchiuso in una cornice composta da '#'.
  */
 void printWelcomeMessage();
+
+/**
+ * Stampa un testo allineato a sinistra all'interno di una cornice composta da '#'.
+ */
+void printLeftAlignedText(const char* text);
 
 #pragma endregion
 
@@ -138,6 +159,35 @@ void printCenteredText(const char* text) {
     printf(" #\n");
 }
 
+void printLeftAlignedText(const char* text) {
+    // Calcola alfa
+    int alfa = FORM_WIDTH - 4;
+
+    // Scrivi i primi due caratteri
+    printf("# ");
+
+    // Se il testo è più lungo di alfa, stampa solo i primi alfa caratteri
+    if (strlen(text) > alfa) {
+        for (int i = 0; i < alfa; i++) {
+            printf("%c", text[i]);
+        }
+    } else {
+        // Stampa il testo
+        printf("%s", text);
+
+        // Calcola il numero di spazi bianchi da inserire dopo il testo
+        int spaces = alfa - strlen(text);
+
+        // Stampa gli spazi bianchi rimanenti
+        for (int i = 0; i < spaces; i++) {
+            printf(" ");
+        }
+    }
+
+    // Stampa i caratteri finali
+    printf(" #\n");
+}
+
 #pragma endregion
 
 #pragma region Definizioni funzioni generali
@@ -148,6 +198,7 @@ void printWelcomeMessage() {
     printWhiteSpace();
     printCenteredText("Benvenuto in Bigliettaio V1!");
     printCenteredText("Versione: " VERSION);
+    printWhiteSpace();
     printWhiteSpace();
     printCenteredText("Made by Lorenzo Rocca");
     printWhiteSpace();
