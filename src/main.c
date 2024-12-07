@@ -4,26 +4,24 @@
 
 #pragma region Inclusioni
 
-// Librerie standard
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <stdint.h>
+// Librerie Progetto
+#include "globals.h"
+#include "forms.h"
 
 #pragma endregion
 
 #pragma region Definizioni
 
-// Versione del programma
-#define VERSION                             "1.0.0/DEV"
-
-// Impostazioni dei form
-#define FORM_WIDTH                          50
+// Spinner caricamento 
+char SPINNER_STATES[8] = {'|', '/', '-', '\\', '|', '/', '-', '\\'};
 
 #pragma endregion
 
 #pragma region Strutture
 
+/**
+ * Struttura per gestire un biglietto
+ */
 typedef struct {
     uint64_t ticketId;
     uint32_t eventId;
@@ -40,25 +38,12 @@ typedef struct {
 #pragma region Prototipi
 
 /**
- * Stampa una linea composta da '#' ai lati e '-' al centro. La lunghezza della linea è 
- * definita dalla costante FORM_WIDTH.
- */
-void printLine();
-
-/**
- * Stampa un testo centrato all'interno di una cornice composta da '#'. Il testo è centrato
- * rispetto alla larghezza definita dalla costante FORM_WIDTH. Se il testo è più lungo della
- * larghezza, verrà troncato.
+ * Questa funzione permette di attendere un numero definito di millisecondi. Utilizza
+ * nanosleep
  * 
- * @param text Il testo da centrare.
+ * @param msec Il numero di millisecondi da attendere
  */
-void printCenteredText(const char* text);
-
-/**
- * Stampa una riga composta da '#' ai lati e ' ' al centro. La lunghezza della riga è definita
- * dalla costante FORM_WIDTH.
- */
-void printWhiteSpace();
+int msleep(long msec);
 
 /**
  * Stampa un messaggio di benvenuto contenente la versione del programma. Il messaggio è 
@@ -66,10 +51,7 @@ void printWhiteSpace();
  */
 void printWelcomeMessage();
 
-/**
- * Stampa un testo allineato a sinistra all'interno di una cornice composta da '#'.
- */
-void printLeftAlignedText(const char* text);
+void launchLoginMenu();
 
 #pragma endregion
 
@@ -81,111 +63,28 @@ int main() {
 
     // Stampa il messaggio di benvenuto
     printWelcomeMessage();
+
+    // Spazio bianco
+    printf("\n");
+
+    // Piccolo caricamento
+    for (int i = 0; i < 20; ++i) {
+        printf("\rCaricamento in corso %c", SPINNER_STATES[i % 8]);
+        msleep(125);
+    }
+
+    // Scrivi che il caricamento è stato completato
+    printf("\rCaricamento completato!");
+
+    // Attendi 1s
+    sleep(1);
+
+    // Pulisci lo schermo
+    system("cls");
+
+    launchLoginMenu();
+
     return 0;
-}
-
-#pragma endregion
-
-#pragma region Definizioni funzioni form
-
-void printLine() {
-    // Calcola alfa
-    int alfa = FORM_WIDTH - 4;
-
-    // Stampa i primi due caratteri
-    printf("# ");
-
-    // Stampa i caratteri centrali
-    for (int i = 0; i < alfa; i++) {
-        printf("-");
-    }
-
-    // Stampa i caratteri finali
-    printf(" #\n");
-}
-
-void printWhiteSpace() {
-    // Calcola alfa
-    int alfa = FORM_WIDTH - 4;
-
-    // Stampa i primi due caratteri
-    printf("# ");
-
-    // Stampa i caratteri centrali
-    for (int i = 0; i < alfa; i++) {
-        printf(" ");
-    }
-
-    // Stampa i caratteri finali
-    printf(" #\n");
-}
-
-void printCenteredText(const char* text) {
-    // Calcola alfa
-    int alfa = FORM_WIDTH - 4;
-
-    // Scrivi i primi due caratteri
-    printf("# ");
-
-    // Se il testo è più lungo di alfa, stampa solo i primi alfa caratteri
-    if (strlen(text) > alfa) {
-        for (int i = 0; i < alfa; i++) {
-            printf("%c", text[i]);
-        }
-    } else {
-        // Calcola il numero di spazi bianchi da inserire prima del testo
-        int spaces = (alfa - strlen(text)) / 2;
-
-        // Stampa gli spazi bianchi
-        for (int i = 0; i < spaces; i++) {
-            printf(" ");
-        }
-
-        // Stampa il testo
-        printf("%s", text);
-
-        // Stampa gli spazi bianchi rimanenti
-        for (int i = 0; i < spaces; i++) {
-            printf(" ");
-        }
-
-        // Se la lunghezza del testo ha il % 2 diverso da quello di alfa, stampa uno spazio bianco
-        if (strlen(text) % 2 != alfa % 2) {
-            printf(" ");
-        }
-    }
-
-    // Stampa i caratteri finali
-    printf(" #\n");
-}
-
-void printLeftAlignedText(const char* text) {
-    // Calcola alfa
-    int alfa = FORM_WIDTH - 4;
-
-    // Scrivi i primi due caratteri
-    printf("# ");
-
-    // Se il testo è più lungo di alfa, stampa solo i primi alfa caratteri
-    if (strlen(text) > alfa) {
-        for (int i = 0; i < alfa; i++) {
-            printf("%c", text[i]);
-        }
-    } else {
-        // Stampa il testo
-        printf("%s", text);
-
-        // Calcola il numero di spazi bianchi da inserire dopo il testo
-        int spaces = alfa - strlen(text);
-
-        // Stampa gli spazi bianchi rimanenti
-        for (int i = 0; i < spaces; i++) {
-            printf(" ");
-        }
-    }
-
-    // Stampa i caratteri finali
-    printf(" #\n");
 }
 
 #pragma endregion
@@ -203,6 +102,51 @@ void printWelcomeMessage() {
     printCenteredText("Made by Lorenzo Rocca");
     printWhiteSpace();
     printLine();
+}
+
+void printMainMenuForm() {
+
+}
+
+#pragma endregion
+
+#pragma region Forms
+
+void launchLoginMenu() {
+    while(1) {
+        char c = _getch();
+        if (c == 'c') {
+            break;
+        }
+    }
+}
+
+#pragma endregion
+
+#pragma region Utils
+
+int msleep(long msec) {
+    // Definisco alcune variabili locali
+    struct timespec ts;
+    int res;
+
+    // Solo numeri di millisecondi positivi
+    if (msec < 0) {
+        errno = EINVAL;
+        return -1;
+    }
+
+    // Ricavo il tempo di attesa
+    ts.tv_sec = msec / 1000;
+    ts.tv_nsec = (msec % 1000) * 1000000;
+
+    // Tento l'esecuzione finchè non viene svolta
+    do {
+        res = nanosleep(&ts, NULL);
+    } while (res && errno == EINTR);
+
+    // Ritorno lo stato di uscita
+    return res;
 }
 
 #pragma endregion
