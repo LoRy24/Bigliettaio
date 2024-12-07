@@ -17,34 +17,6 @@ char SPINNER_STATES[8] = {'|', '/', '-', '\\', '|', '/', '-', '\\'};
 
 #pragma endregion
 
-#pragma region Strutture
-
-/**
- * Struttura per gestire un biglietto
- */
-typedef struct {
-    uint64_t ticketId;
-    uint32_t eventId;
-    uint32_t seat;
-    uint16_t price;
-    char name[50];
-    char surname[50];
-    char email[50];
-    char phone[20];
-} Ticket;
-
-/**
- * Struttura per l'account utente
- */
-typedef struct {
-    char name[128];
-    char surname[128];
-    int age;
-    int admin;
-} Account;
-
-#pragma endregion
-
 #pragma region Prototipi
 
 /**
@@ -61,7 +33,10 @@ int msleep(long msec);
  */
 void printWelcomeMessage();
 
-void launchLoginMenu();
+/**
+ * Questa funzione avvia il menù principale.
+ */
+void launchMainMenu();
 
 #pragma endregion
 
@@ -75,6 +50,9 @@ Account userAccount;
 
 #pragma region Routine principale
 
+/**
+ * Entry point del programma
+ */
 int main() {
     // Pulisci lo schermo per sicurezza
     system("cls");
@@ -100,7 +78,8 @@ int main() {
     // Pulisci lo schermo
     system("cls");
 
-    launchLoginMenu();
+    // Avvia il menù principale
+    launchMainMenu();
 
     return 0;
 }
@@ -153,7 +132,7 @@ void printMainMenuForm(int error, const char* errorMessage) {
 
 #pragma region Forms
 
-void launchLoginMenu() {
+void launchMainMenu() {
     // Definisco eventuali errori
     int errorState = 0;
     char* errorMessage;
