@@ -33,6 +33,16 @@ typedef struct {
     char phone[20];
 } Ticket;
 
+/**
+ * Struttura per l'account utente
+ */
+typedef struct {
+    char name[128];
+    char surname[128];
+    int age;
+    int admin;
+} Account;
+
 #pragma endregion
 
 #pragma region Prototipi
@@ -52,6 +62,14 @@ int msleep(long msec);
 void printWelcomeMessage();
 
 void launchLoginMenu();
+
+#pragma endregion
+
+#pragma region Variabili Globali
+
+// Stato di login dell'utente
+int logged = 0;
+Account userAccount;
 
 #pragma endregion
 
@@ -104,8 +122,31 @@ void printWelcomeMessage() {
     printLine();
 }
 
-void printMainMenuForm() {
+void printMainMenuForm(int error, const char* errorMessage) {
+    // Prima parte
+    printLine();
+    printWhiteSpace();
+    printCenteredText("Scegli un operazione da svolgere");
 
+    // Messaggio sotto-titolo
+    if (error == 1) {
+        char* text = malloc(strlen(errorMessage) + 14);
+        sprintf(text, "-> Errore! %s <-", errorMessage);
+        printCenteredText(text);
+    }
+    else {
+        printCenteredText("-> Attesa Input <-");
+    }
+
+    // Pulsanti
+    printWhiteSpace();
+    printCenteredText("< 1. Lista Biglietti >");
+    printCenteredText("< 2. Effettua Login  >");
+    printCenteredText("< 3. Crea Account    >");
+    printWhiteSpace();
+    printCenteredText("< q. Esci >");
+    printWhiteSpace();
+    printLine();
 }
 
 #pragma endregion
@@ -113,12 +154,46 @@ void printMainMenuForm() {
 #pragma region Forms
 
 void launchLoginMenu() {
-    while(1) {
+    // Definisco eventuali errori
+    int errorState = 0;
+    char* errorMessage;
+    errorMessage = NULL;
+
+    // Inizia il ciclo di richiesta
+    do {
+        // Pulisci lo schermo
+        printf("\e[1;1H\e[2J");
+        fflush(stdout);
+
+        // Stampa il form principale
+        printMainMenuForm(errorState, errorMessage);
+
+        // Leggi carattere da tastiera
         char c = _getch();
-        if (c == 'c') {
+
+        // Se il carattere è la q, esci dal programma
+        if (c == 'q') {
             break;
         }
-    }
+
+        // In base al carattere letto
+        switch (c) {
+            case '1':
+            case '2': 
+            case '3': {
+                errorState = 1;
+                errorMessage = "Coming Soon!";
+                continue;
+            }
+        
+            default: {
+                // Errore di comando non trovato
+                errorState = 1;
+                errorMessage = "Comando invalido!";
+                break;
+            }
+        }
+    } while(1);
 }
 
 #pragma endregion
