@@ -5,6 +5,10 @@
 #ifndef GLOBALS_H
 #define GLOBALS_H
 
+//
+// Inclusioni
+//
+
 #pragma region Inclusioni
 
 // Librerie standard
@@ -16,9 +20,12 @@
 #include <unistd.h>
 #include <conio.h>
 #include <errno.h>
+#include <windows.h>
 
 // Librerie Progetto
 #include "definitions.h"
+#include "forms.h"
+#include "utils.h"
 
 #pragma endregion
 

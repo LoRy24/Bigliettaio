@@ -6,26 +6,25 @@
 
 // Librerie Progetto
 #include "globals.h"
-#include "forms.h"
 
 #pragma endregion
 
-#pragma region Definizioni
+//
+// Definizioni Locali
+//
+
+#pragma region Definizioni Locali
 
 // Spinner caricamento 
 char SPINNER_STATES[8] = {'|', '/', '-', '\\', '|', '/', '-', '\\'};
 
 #pragma endregion
 
-#pragma region Prototipi
+//
+// Prototipi Funzioni
+//
 
-/**
- * Questa funzione permette di attendere un numero definito di millisecondi. Utilizza
- * nanosleep
- * 
- * @param msec Il numero di millisecondi da attendere
- */
-int msleep(long msec);
+#pragma region Prototipi
 
 /**
  * Stampa un messaggio di benvenuto contenente la versione del programma. Il messaggio è 
@@ -40,6 +39,10 @@ void launchMainMenu();
 
 #pragma endregion
 
+//
+// Variabili Globali
+//
+
 #pragma region Variabili Globali
 
 // Stato di login dell'utente
@@ -48,6 +51,10 @@ Account userAccount;
 
 #pragma endregion
 
+//
+// Routine Principale
+//
+
 #pragma region Routine principale
 
 /**
@@ -55,7 +62,7 @@ Account userAccount;
  */
 int main() {
     // Pulisci lo schermo per sicurezza
-    system("cls");
+    //system("cls");
 
     // Stampa il messaggio di benvenuto
     printWelcomeMessage();
@@ -86,7 +93,19 @@ int main() {
 
 #pragma endregion
 
+//
+// Funzioni Generali
+//
+
 #pragma region Definizioni funzioni generali
+
+void printHead() {
+    printLine();
+    printWhiteSpace();
+    printCenteredText("Bigliettaio V1");
+    printCenteredText("Versione: " VERSION);
+    printWhiteSpace();
+}
 
 void printWelcomeMessage() {
     // Stampa il messaggio di benvenuto
@@ -102,6 +121,9 @@ void printWelcomeMessage() {
 }
 
 void printMainMenuForm(int error, const char* errorMessage) {
+    // Head
+    printHead();
+
     // Prima parte
     printLine();
     printWhiteSpace();
@@ -125,10 +147,28 @@ void printMainMenuForm(int error, const char* errorMessage) {
     printWhiteSpace();
     printCenteredText("< q. Esci >");
     printWhiteSpace();
+    printCenteredText("Account: ");
+
+    // Scrivi l'account
+    if (logged == 1) {
+        // Prepara la stringa dell'account  
+        char* text = malloc(strlen(userAccount.name) + strlen(userAccount.surname) + 1);
+        sprintf(text, "%s %s", userAccount.name, userAccount.surname);
+        printCenteredText(text);
+    }
+    else {
+        printCenteredText("Non autenticato");
+    }
+
+    printWhiteSpace();
     printLine();
 }
 
 #pragma endregion
+
+//
+// Forms
+//
 
 #pragma region Forms
 
@@ -141,7 +181,7 @@ void launchMainMenu() {
     // Inizia il ciclo di richiesta
     do {
         // Pulisci lo schermo
-        printf("\e[1;1H\e[2J");
+        system("cls");
         fflush(stdout);
 
         // Stampa il form principale
@@ -157,8 +197,30 @@ void launchMainMenu() {
 
         // In base al carattere letto
         switch (c) {
-            case '1':
-            case '2': 
+            case '1': {
+                // Se l'utente non è autenticato, dai un errore
+                if (logged == 0) {
+                    errorState = 1;
+                    errorMessage = "Non hai eseguito l'accesso!";
+                    continue;
+                }
+            }
+
+            case '2': {
+                // Esegui il form di login
+                int loginMenu = launchLoginMenu();
+
+                if (loginMenu == 1) {
+                    goto mainMenuEnd;
+                }
+                else if (loginMenu == 2) {
+                    continue;
+                }
+
+                // Non fare altro
+                break;
+            }
+
             case '3': {
                 errorState = 1;
                 errorMessage = "Coming Soon!";
@@ -173,34 +235,9 @@ void launchMainMenu() {
             }
         }
     } while(1);
-}
 
-#pragma endregion
-
-#pragma region Utils
-
-int msleep(long msec) {
-    // Definisco alcune variabili locali
-    struct timespec ts;
-    int res;
-
-    // Solo numeri di millisecondi positivi
-    if (msec < 0) {
-        errno = EINVAL;
-        return -1;
-    }
-
-    // Ricavo il tempo di attesa
-    ts.tv_sec = msec / 1000;
-    ts.tv_nsec = (msec % 1000) * 1000000;
-
-    // Tento l'esecuzione finchè non viene svolta
-    do {
-        res = nanosleep(&ts, NULL);
-    } while (res && errno == EINTR);
-
-    // Ritorno lo stato di uscita
-    return res;
+    mainMenuEnd:
+    return;
 }
 
 #pragma endregion

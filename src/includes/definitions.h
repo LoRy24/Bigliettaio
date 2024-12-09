@@ -5,15 +5,30 @@
 #ifndef DEFINITIONS_H
 #define DEFINITIONS_H
 
+//
+// Definizioni
+//
+
 #pragma region Definizioni
 
 // Versione del programma
 #define VERSION                             "1.0.0/DEV"
 
 // Impostazioni dei form
-#define FORM_WIDTH                          80
+#define FORM_WIDTH                          90
+
+// Tasti
+#define KEY_ENTER                           13
+#define KEY_BACKSPACE                       8
+#define KEY_ESCAPE                          27
+#define KEY_UP_ARROW                        72
+#define KEY_DOWN_ARROW                      80
 
 #pragma endregion
+
+//
+// Strutture
+//
 
 #pragma region Strutture
 

@@ -5,6 +5,10 @@
 #ifndef FORMS_H
 #define FORMS_H
 
+//
+// Inclusioni
+//
+
 #pragma region Inclusioni
 
 // Librerie interne al progetto
@@ -12,7 +16,13 @@
 
 #pragma endregion
 
+//
+// Prototipi Funzioni
+//
+
 #pragma region Prototipi Funzioni
+
+// Stesura form
 
 /**
  * Stampa una linea composta da '#' ai lati e '-' al centro. La lunghezza della linea è 
@@ -44,6 +54,31 @@ void printLeftAlignedText(const char* text);
  * Stampa un testo allineato a destra all'interno di una cornice composta da '#'.
  */
 void printRightAlignedText(const char* text);
+
+// Utility forms
+
+/**
+ * Stampa l'intestazione dei form
+ */
+void printHead();
+
+// Login
+
+/**
+ * Stampa il form del login
+ * 
+ * @param username Il nome utente
+ * @param password La password inserita
+ * @param selected Il campo selezionato
+ * @param error Se è presente un errore
+ * @param errorMessage Il messaggio di errore
+ */
+void printLoginMenuForm(char* username, char* password, int selected, int error, const char* errorMessage);
+
+/**
+ * Avvia il menu di login
+ */
+int launchLoginMenu();
 
 #pragma endregion
 
