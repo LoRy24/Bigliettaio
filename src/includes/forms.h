@@ -62,6 +62,26 @@ void printRightAlignedText(const char* text);
  */
 void printHead();
 
+// Menu Principale
+
+/**
+ * Stampa il form del menu principale
+ * 
+ * @param error Se è presente un errore
+ * @param errorMessage Il messaggio di errore
+ * @param logged Se l'utente è loggato
+ * @param userAccount L'account dell'utente
+ */
+void printMainMenuForm(int error, const char* errorMessage, int logged, Account userAccount);
+
+/**
+ * Questa funzione avvia il menù principale.
+ * 
+ * @param logged Lo stato di login dell'utente
+ * @param userAccount L'account dell'utente
+ */
+void launchMainMenu(int* logged, Account* userAccount);
+
 // Login
 
 /**
