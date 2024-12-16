@@ -14,6 +14,20 @@
 // Versione del programma
 #define VERSION                             "1.0.0/DEV"
 
+// Testi vari
+#define APP_NAME                            "Bigliettaio V1"
+#define APP_NAME_SHORT                      "Bigliettaio"
+#define ADMIN_PREFIX                        "[ADMIN] "
+
+// Messaggi di errore
+#define ERROR_MESSAGE_INVALID_COMMAND       "Comando non valido!"
+#define ERROR_MESSAGE_INTERNAL_ERROR        "Errore interno!"
+#define ERROR_MESSAGE_NOT_LOGGED            "Non hai eseguito l'accesso!"
+#define ERROR_MESSAGE_ALREADY_LOGGED        "Sei già autenticato!"
+#define ERROR_MESSAGE_NOT_ADMIN             "Non sei un amministratore!"
+#define ERROR_MESSAGE_NOT_FOUND             "Elemento non trovato!"
+#define ERROR_MESSAGE_NOT_IMPLEMENTED       "Funzionalità non implementata!"
+
 // Impostazioni dei form
 #define FORM_WIDTH                          90
 
@@ -57,6 +71,14 @@ typedef struct {
     int age;
     int admin;
 } Account;
+
+/**
+ * Struttura per le credenziali
+ */
+typedef struct {
+    char username[32];
+    char password[32];
+} Credentials;
 
 #pragma endregion
 
