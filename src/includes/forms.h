@@ -97,8 +97,10 @@ void printLoginMenuForm(char* username, char* password, int selected, int error,
 
 /**
  * Avvia il menu di login
+ * 
+ * @param credentials Le credenziali dell'utente
  */
-int launchLoginMenu();
+int launchLoginMenu(Credentials* credentials);
 
 #pragma endregion
 

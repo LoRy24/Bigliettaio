@@ -80,7 +80,7 @@ int main() {
     // Pulisci lo schermo
     system("cls");
 
-    // Avvia il menù principale
+    // Avvia il menù principale e definisci una struttura per le credenziali
     launchMainMenu(&logged, &userAccount);
 
     return 0;

@@ -93,11 +93,13 @@ void printLoginMenuForm(char* username, char* password, int selected, int error,
     printLine();
 }
 
+//
 // Stati:
 // 0: Tutto ok continua dal menu principale
 // 1: Esci dal programma
 // 2: Torna al menu principale
-int launchLoginMenu() {
+//
+int launchLoginMenu(Credentials* credentials) {
     // Definisci i campi
     char campi[2][32];
 
@@ -114,6 +116,7 @@ int launchLoginMenu() {
     int error = 0;
     char* errorMessage = NULL;
 
+    // Loop per il menu
     do {
         // Pulisci lo schermo
         system("cls");
@@ -155,11 +158,8 @@ int launchLoginMenu() {
 
         // Se il carattere è invio, esegui il login
         if (c == KEY_ENTER) {
-            // Per ora da sempre un errore
-            error = 1;
-            errorMessage = malloc(64);
-            sprintf(errorMessage, "U: %s, P: %s", campi[0], campi[1]);
-            continue;
+            // Per oraesce per ridare il controllo al menu principale
+            break;
         }
 
         // Se il carattere è backspace, cancella l'ultimo carattere
@@ -170,6 +170,13 @@ int launchLoginMenu() {
             continue;
         }
     } while (1);
+
+    // Copia i campi nella struttura delle credenziali
+    strcpy(credentials->username, campi[0]);
+    strcpy(credentials->password, campi[1]);
+
+    // Torna al menu principale
+    return 0;
 }
 
 #pragma endregion

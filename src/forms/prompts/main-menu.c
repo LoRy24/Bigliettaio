@@ -42,6 +42,12 @@ void printMainMenuForm(int error, const char* errorMessage, int logged, Account 
     printCenteredText("< 1. Lista Biglietti >");
     printCenteredText("< 2. Effettua Login  >");
     printCenteredText("< 3. Crea Account    >");
+
+    // Se è loggato, mostra il pulsante per il logout
+    if (logged == 1) {
+        printCenteredText("< 4. Effettua Logout >");
+    }
+
     printWhiteSpace();
     printCenteredText("< ctrl + x. Esci >");
     printWhiteSpace();
@@ -51,7 +57,7 @@ void printMainMenuForm(int error, const char* errorMessage, int logged, Account 
     if (logged == 1) {
         // Prepara la stringa dell'account  
         char* text = malloc(strlen(userAccount.name) + strlen(userAccount.surname) + 1);
-        sprintf(text, "%s %s", userAccount.name, userAccount.surname);
+        sprintf(text, "%s%s %s",userAccount.admin == 1 ? ADMIN_PREFIX : "", userAccount.name, userAccount.surname);
         printCenteredText(text);
     }
     else {
@@ -67,6 +73,9 @@ void launchMainMenu(int* logged, Account* userAccount) {
     int errorState = 0;
     char* errorMessage;
     errorMessage = NULL;
+
+    // Credenziali temporanee
+    Credentials credentials;
 
     // Inizia il ciclo di richiesta
     do {
@@ -91,19 +100,44 @@ void launchMainMenu(int* logged, Account* userAccount) {
                 // Se l'utente non è autenticato, dai un errore
                 if (*logged == 0) {
                     errorState = 1;
-                    errorMessage = "Non hai eseguito l'accesso!";
+                    errorMessage = ERROR_MESSAGE_NOT_LOGGED;
                     continue;
                 }
             }
 
             case '2': {
+                // Se l'utente è già autenticato, dai un errore
+                if (*logged == 1) {
+                    errorState = 1;
+                    errorMessage = ERROR_MESSAGE_ALREADY_LOGGED;
+                    continue;
+                }
+
                 // Esegui il form di login
-                int loginMenu = launchLoginMenu();
+                int loginMenu = launchLoginMenu(&credentials);
 
                 if (loginMenu == 1) {
                     goto mainMenuEnd;
                 }
                 else if (loginMenu == 2) {
+                    continue;
+                }
+                else if (loginMenu == 0) {
+                    // Impostazioni bools
+                    errorState = 0;
+                    *logged = 1; // Imposta lo stato di login
+
+                    // Prendi le credenziali e salva l'account
+                    strcpy(userAccount->name, credentials.username);
+                    userAccount->admin = 1; // DEBUG: Imposta per ora admin
+
+                    // Continua
+                    continue;
+                }
+                else {
+                    // Errore di comando non trovato
+                    errorState = 1;
+                    errorMessage = ERROR_MESSAGE_INTERNAL_ERROR;
                     continue;
                 }
 
@@ -113,7 +147,25 @@ void launchMainMenu(int* logged, Account* userAccount) {
 
             case '3': {
                 errorState = 1;
-                errorMessage = "Coming Soon!";
+                errorMessage = ERROR_MESSAGE_NOT_IMPLEMENTED;
+                continue;
+            }
+
+            case '4': {
+                // Se l'utente non è autenticato, dai un errore
+                if (*logged == 0) {
+                    errorState = 1;
+                    errorMessage = ERROR_MESSAGE_NOT_LOGGED;
+                    continue;
+                }
+
+                // Effettua il logout
+                *logged = 0;
+                strcpy(userAccount->name, "");
+                userAccount->admin = 0;
+                credentials = (Credentials) { "", "" }; // Pulisci le credenziali
+
+                // Continua
                 continue;
             }
         
