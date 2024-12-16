@@ -23,6 +23,8 @@
 #define KEY_ESCAPE                          27
 #define KEY_UP_ARROW                        72
 #define KEY_DOWN_ARROW                      80
+#define KEY_CTRL_X                          24
+#define KEY_ARROWS                          224
 
 #pragma endregion
 

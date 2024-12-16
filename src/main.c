@@ -57,7 +57,7 @@ Account userAccount;
  */
 int main() {
     // Pulisci lo schermo per sicurezza
-    //system("cls");
+    system("cls");
 
     // Stampa il messaggio di benvenuto
     printWelcomeMessage();

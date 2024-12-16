@@ -43,7 +43,7 @@ void printMainMenuForm(int error, const char* errorMessage, int logged, Account 
     printCenteredText("< 2. Effettua Login  >");
     printCenteredText("< 3. Crea Account    >");
     printWhiteSpace();
-    printCenteredText("< q. Esci >");
+    printCenteredText("< ctrl + x. Esci >");
     printWhiteSpace();
     printCenteredText("Account: ");
 
@@ -80,8 +80,8 @@ void launchMainMenu(int* logged, Account* userAccount) {
         // Leggi carattere da tastiera
         char c = _getch();
 
-        // Se il carattere è la q, esci dal programma
-        if (c == 'q') {
+        // Se il carattere è CTRL + X, esci dal programma
+        if (c == KEY_CTRL_X) {
             break;
         }
 

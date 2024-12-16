@@ -12,11 +12,20 @@
 
 #pragma endregion
 
+#pragma region Buffers
+
+#pragma endregion
+
 //
 // Login Form
 //
 
 #pragma region Form
+
+void buildInputBox(char* buffer, char* text) {
+    // Costruisci il box
+    sprintf(buffer, "|> %s <|", text);
+}
 
 void printLoginMenuForm(char* username, char* password, int selected, int error, const char* errorMessage) {
     // Head
@@ -40,11 +49,36 @@ void printLoginMenuForm(char* username, char* password, int selected, int error,
     // Pulsanti
     printWhiteSpace();
     printCenteredText(selected == 0 ? "-> Username:" : "Username:");
-    printCenteredText(username);
+
+    // Stampa l'username con il box
+    char usernameWithBox[38];
+    usernameWithBox[0] = '\0';
+
+    buildInputBox(usernameWithBox, username);
+    printCenteredText(usernameWithBox);
+
+    // Fine stampa username
 
     printWhiteSpace();
     printCenteredText(selected == 1 ? "-> Password:" : "Password:");
-    printCenteredText(password);
+
+    // Stampa la password con degli asterischi
+
+    char passwordHidden[32];
+    passwordHidden[0] = '\0';
+
+    for (int i = 0; i < strlen(password); i++) {
+        passwordHidden[i] = '*';
+        passwordHidden[i + 1] = '\0';
+    }
+
+    char passwordWithBox[38];
+    passwordWithBox[0] = '\0';
+
+    buildInputBox(passwordWithBox, passwordHidden);
+    printCenteredText(passwordWithBox);
+
+    // Fine stampa password
 
     printWhiteSpace();
     printCenteredText("< Usa le freccette su e giu' per cambiare valore >");
@@ -52,7 +86,7 @@ void printLoginMenuForm(char* username, char* password, int selected, int error,
 
     printWhiteSpace();
     printCenteredText("< esc. Indietro >");
-    printCenteredText("< q. Esci >");
+    printCenteredText("< ctrl + x. Esci >");
     printWhiteSpace();
 
     // Ultima Riga
@@ -65,13 +99,13 @@ void printLoginMenuForm(char* username, char* password, int selected, int error,
 // 2: Torna al menu principale
 int launchLoginMenu() {
     // Definisci i campi
-    char campi[2][32] = {"\0", "\0"};
+    char campi[2][32];
 
-    // Definisco il cursore username
-    int usernameCursor = 0;
+    // Pulisci i campi
+    clearStringBuffer(campi[0], 32);
+    clearStringBuffer(campi[1], 32);
 
-    // Definisco il cursore password
-    int passwordCursor = 0;
+    int cursors[2] = {0, 0};
 
     // Selezione di editing
     int selected = 0;
@@ -89,10 +123,28 @@ int launchLoginMenu() {
         printLoginMenuForm(campi[0], campi[1], selected, error, errorMessage);
 
         // Leggi carattere da tastiera
-        char c = _getch();
+        int c = _getch();
 
-        // Se il carattere è la q, esci dal programma
-        if (c == 'q') {
+        // Se il carattere è 224, allora è una freccia
+        if (c == KEY_ARROWS) {
+            // Legge il secondo carattere, che identifica la freccietta
+            c = _getch();
+
+            // Cambia lo stato
+            selected = selected == 0 ? 1 : 0;
+            continue;
+        }
+
+        // Se il carattere è una lettera o un numero fra 0 e 9
+        if ((c >= 97 && c <= 122) || (c >= 65 && c <= 90) || (c >= 48 && c <= 57)) {
+            if (cursors[selected] < 31) {
+                campi[selected][cursors[selected]++] = c;
+            }
+            continue;
+        }
+
+        // Se il carattere è CTRL_X, esci dal programma
+        if (c == KEY_CTRL_X) {
             return 1;
         }
 
@@ -105,13 +157,16 @@ int launchLoginMenu() {
         if (c == KEY_ENTER) {
             // Per ora da sempre un errore
             error = 1;
-            errorMessage = "Login non disponibile!";
+            errorMessage = malloc(64);
+            sprintf(errorMessage, "U: %s, P: %s", campi[0], campi[1]);
             continue;
         }
 
-        // Se il carattere è un tasto freccia, cambia lo stato di selected
-        if (c == KEY_UP_ARROW || c == KEY_DOWN_ARROW) {
-            selected = selected == 0 ? 1 : 0;
+        // Se il carattere è backspace, cancella l'ultimo carattere
+        if (c == KEY_BACKSPACE) {
+            if (cursors[selected] > 0) {
+                campi[selected][--cursors[selected]] = '\0';
+            }
             continue;
         }
     } while (1);

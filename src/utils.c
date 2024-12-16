@@ -43,4 +43,10 @@ float calculateCommission(float price, float percentage) {
     return price * (percentage / 100);
 }
 
+void clearStringBuffer(char* buffer, int length) {
+    for (int i = 0; i < length; i++) {
+        buffer[i] = '\0';
+    }
+}
+
 #pragma endregion

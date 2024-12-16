@@ -38,6 +38,15 @@ int msleep(long msec);
  */
 float calculateCommission(float price, float percentage);
 
+/**
+ * Questa funzione permette di pulire un buffer di caratteri, impostando tutti i caratteri
+ * a '\0'.
+ * 
+ * @param buffer Il buffer da pulire
+ * @param length La lunghezza del buffer
+ */
+void clearStringBuffer(char* buffer, int length);
+
 #pragma endregion
 
 #endif
