@@ -27,7 +27,89 @@ void buildInputBox(char* buffer, char* text) {
     sprintf(buffer, "|> %s <|", text);
 }
 
-void printLoginMenuForm(char* username, char* password, int selected, int error, const char* errorMessage) {
+void printErrorMessageLogin(const char* errorMessage) {
+    // Prepara il messaggio di errore
+    char* text = malloc(strlen(errorMessage) + 16);
+    sprintf(text, "-> Errore! %s <-", errorMessage);
+
+    // Stampa il messaggio di errore
+    moveCursor(0, 9);
+    printCenteredText(text);
+
+    // Pulisci la memoria
+    free(text);
+
+    // Azzera il cursore
+    moveCursor(0, 0);
+}
+
+void printUsernamePrompt(char* username) {
+    // Alloca la memoria
+    char* usernameWithBox = malloc(38);
+    usernameWithBox[0] = '\0';
+
+    // Costruisci il box
+    buildInputBox(usernameWithBox, username);
+
+    // Stampalo a schermo
+    moveCursor(0, 12);
+    printCenteredText(usernameWithBox);
+
+    // Libera la memoria
+    free(usernameWithBox);
+
+    // Azzera il cursore
+    moveCursor(0, 0);
+}
+
+void printPasswordPrompt(char* password) {
+    // Alloca la memoria
+    char* passwordHidden = malloc(33);
+    passwordHidden[0] = '\0';
+
+    // Costruisci la password nascosta
+    for (int i = 0; i < strlen(password); i++) {
+        passwordHidden[i] = '*';
+        passwordHidden[i + 1] = '\0';
+    }
+
+    // Allocare la memoria
+    char* passwordWithBox = malloc(38);
+    passwordWithBox[0] = '\0';
+
+    // Costruisci il box
+    buildInputBox(passwordWithBox, passwordHidden);
+
+    // Stampalo a schermo
+    moveCursor(0, 15);
+    printCenteredText(passwordWithBox);
+
+    // Libera la memoria
+    free(passwordHidden);
+    free(passwordWithBox);
+}
+
+void updatePrompt(int selected, char* content) {
+    // Titolo campo username
+    moveCursor(0, 11);
+    printCenteredText(selected == 0 ? "-> Username:" : "Username:");
+
+    // Titolo campo password
+    moveCursor(0, 14);
+    printCenteredText(selected == 1 ? "-> Password:" : "Password:");
+
+    // Seleziona il campo
+    if (selected == 0) {
+        printUsernamePrompt(content);
+    } else {
+        printPasswordPrompt(content);
+    }
+
+    // Azzera il cursore
+    moveCursor(0, 0);
+}
+
+void printLoginMenuForm(int selected) {
     // Head
     printHead();
 
@@ -36,55 +118,23 @@ void printLoginMenuForm(char* username, char* password, int selected, int error,
     printWhiteSpace();
     printCenteredText("Effettua il login");
 
-    // Errore ove presente
-    if (error == 1) {
-        char* text = malloc(strlen(errorMessage) + 14);
-        sprintf(text, "-> Errore! %s <-", errorMessage);
-        printCenteredText(text);
-        free(text);
-    }
-    else {
-        printCenteredText("-> Attesa Input <-");
-    }
+    // Stampa prompt attesa input
+    printCenteredText("-> Attesa Input <-");
 
     // Pulsanti
     printWhiteSpace();
     printCenteredText(selected == 0 ? "-> Username:" : "Username:");
 
     // Stampa l'username con il box
-    char* usernameWithBox = malloc(38);
-    usernameWithBox[0] = '\0';
-
-    buildInputBox(usernameWithBox, username);
-    printCenteredText(usernameWithBox);
-
-    free(usernameWithBox);
-
-    // Fine stampa username
+    printUsernamePrompt("");
+    moveCursor(0, 13);
 
     printWhiteSpace();
     printCenteredText(selected == 1 ? "-> Password:" : "Password:");
 
     // Stampa la password con degli asterischi
-
-    char* passwordHidden = malloc(33); // Odio i puntatori
-    passwordHidden[0] = '\0';
-
-    for (int i = 0; i < strlen(password); i++) {
-        passwordHidden[i] = '*';
-        passwordHidden[i + 1] = '\0';
-    }
-
-    char* passwordWithBox = malloc(38);
-    passwordWithBox[0] = '\0';
-
-    buildInputBox(passwordWithBox, passwordHidden);
-    printCenteredText(passwordWithBox);
-
-    free(passwordHidden);
-    free(passwordWithBox);
-
-    // Fine stampa password
+    printPasswordPrompt("");
+    moveCursor(0, 16);
 
     printWhiteSpace();
     printCenteredText("< Usa le freccette su e giu' per cambiare valore >");
@@ -97,6 +147,9 @@ void printLoginMenuForm(char* username, char* password, int selected, int error,
 
     // Ultima Riga
     printLine();
+
+    // Azzera il cursore
+    moveCursor(0, 0);
 }
 
 //
@@ -118,19 +171,14 @@ int launchLoginMenu(Credentials* credentials) {
     // Selezione di editing
     int selected = 0;
 
-    // Errore
-    int error = 0;
-    char* errorMessage = malloc(128);
+    // Stampa il form di login
+    system("cls");
+    printLoginMenuForm(selected);
 
     // Loop per il menu
     do {
-        // Pulisci lo schermo
-        system("cls");
-
-        fflush(stdout);
-
-        // Stampa il form di login
-        printLoginMenuForm(campi[0], campi[1], selected, error, errorMessage);
+        // Aggiorna il prompt
+        updatePrompt(selected, campi[selected]);
 
         // Leggi carattere da tastiera
         int c = _getch();
@@ -181,9 +229,6 @@ int launchLoginMenu(Credentials* credentials) {
     // Copia i campi nella struttura delle credenziali
     sprintf(credentials->username, "%s", campi[0]);
     sprintf(credentials->password, "%s", campi[1]);
-
-    // Libera la memoria
-    free(errorMessage);
 
     // Torna al menu principale
     return 0;

@@ -94,13 +94,9 @@ void launchMainMenu(int* logged, Account* userAccount);
 /**
  * Stampa il form del login
  * 
- * @param username Il nome utente
- * @param password La password inserita
  * @param selected Il campo selezionato
- * @param error Se è presente un errore
- * @param errorMessage Il messaggio di errore
  */
-void printLoginMenuForm(char* username, char* password, int selected, int error, const char* errorMessage);
+void printLoginMenuForm(int selected);
 
 /**
  * Avvia il menu di login

@@ -42,7 +42,7 @@ void printUserAccount(int logged, Account userAccount) {
     moveCursor(0, 0);
 }
 
-void printErrorMessage(const char* errorMessage) {
+void printErrorMessageMainMenu(const char* errorMessage) {
     // Prepara il messaggio di errore
     char* text = malloc(strlen(errorMessage) + 16);
     sprintf(text, "-> Errore! %s <-", errorMessage);
@@ -122,7 +122,7 @@ void launchMainMenu(int* logged, Account* userAccount) {
             case '1': {
                 // Se l'utente non è autenticato, dai un errore
                 if (*logged == 0) {
-                    printErrorMessage(ERROR_MESSAGE_NOT_LOGGED);
+                    printErrorMessageMainMenu(ERROR_MESSAGE_NOT_LOGGED);
                     break;
                 }
 
@@ -132,7 +132,7 @@ void launchMainMenu(int* logged, Account* userAccount) {
             case '2': {
                 // Se l'utente è già autenticato, dai un errore
                 if (*logged == 1) {
-                    printErrorMessage(ERROR_MESSAGE_ALREADY_LOGGED);
+                    printErrorMessageMainMenu(ERROR_MESSAGE_ALREADY_LOGGED);
                     break;
                 }
 
@@ -164,7 +164,7 @@ void launchMainMenu(int* logged, Account* userAccount) {
                 }
                 else {
                     // Errore di comando non trovato
-                    printErrorMessage(ERROR_MESSAGE_INTERNAL_ERROR);
+                    printErrorMessageMainMenu(ERROR_MESSAGE_INTERNAL_ERROR);
                     break;
                 }
 
@@ -173,14 +173,14 @@ void launchMainMenu(int* logged, Account* userAccount) {
             }
 
             case '3': {
-                printErrorMessage(ERROR_MESSAGE_NOT_IMPLEMENTED);
+                printErrorMessageMainMenu(ERROR_MESSAGE_NOT_IMPLEMENTED);
                 break;
             }
 
             case '4': {
                 // Se l'utente non è autenticato, dai un errore
                 if (*logged == 0) {
-                    printErrorMessage(ERROR_MESSAGE_NOT_LOGGED);
+                    printErrorMessageMainMenu(ERROR_MESSAGE_NOT_LOGGED);
                     break;
                 }
 
@@ -205,7 +205,7 @@ void launchMainMenu(int* logged, Account* userAccount) {
         
             default: {
                 // Errore di comando non trovato
-                printErrorMessage(ERROR_MESSAGE_INVALID_COMMAND);
+                printErrorMessageMainMenu(ERROR_MESSAGE_INVALID_COMMAND);
                 break;
             }
         }
