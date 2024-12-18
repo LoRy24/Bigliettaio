@@ -32,17 +32,10 @@ char SPINNER_STATES[8] = {'|', '/', '-', '\\', '|', '/', '-', '\\'};
  */
 void printWelcomeMessage();
 
-#pragma endregion
-
-//
-// Variabili Globali
-//
-
-#pragma region Variabili Globali
-
-// Stato di login dell'utente
-int logged = 0;
-Account userAccount;
+/**
+ * Ottiene la larghezza della console in caratteri.
+ */
+int getConsoleWidth();
 
 #pragma endregion
 
@@ -56,6 +49,24 @@ Account userAccount;
  * Entry point del programma
  */
 int main() {
+    // Imposta la larghezza del form
+    FORM_WIDTH = getConsoleWidth();
+
+    // Variabili generali ma da utilizzare ovunque
+    #pragma region Variabili Generali
+
+    // Stato di login dell'utente
+    int logged = 0;
+
+    // Account dell'utente
+    Account* userAccount = malloc(sizeof(Account));
+    clearStringBuffer(userAccount->name, 128);
+    clearStringBuffer(userAccount->surname, 128);
+    userAccount->admin = 0;
+    userAccount->age = 0;
+
+    #pragma endregion
+
     // Pulisci lo schermo per sicurezza
     system("cls");
 
@@ -81,8 +92,12 @@ int main() {
     system("cls");
 
     // Avvia il menù principale e definisci una struttura per le credenziali
-    launchMainMenu(&logged, &userAccount);
+    launchMainMenu(&logged, userAccount);
 
+    // Pulisci la memoria
+    free(userAccount);
+
+    // Esci dal programma
     return 0;
 }
 
@@ -113,6 +128,21 @@ void printWelcomeMessage() {
     printCenteredText("Made by Lorenzo Rocca");
     printWhiteSpace();
     printLine();
+}
+
+int getConsoleWidth() {
+    // Ottieni le informazioni sulla console
+    CONSOLE_SCREEN_BUFFER_INFO csbi;
+    int columns; // Risultato
+
+    // Ottieni le informazioni sulla console
+    GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
+
+    // Calcola la larghezza della console
+    columns = csbi.srWindow.Right - csbi.srWindow.Left + 1;
+
+    // Ritorna la larghezza
+    return columns;
 }
 
 #pragma endregion

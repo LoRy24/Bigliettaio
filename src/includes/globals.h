@@ -27,6 +27,9 @@
 #include "forms.h"
 #include "utils.h"
 
+// Definizione form width
+int FORM_WIDTH;
+
 #pragma endregion
 
 #endif

@@ -41,6 +41,7 @@ void printLoginMenuForm(char* username, char* password, int selected, int error,
         char* text = malloc(strlen(errorMessage) + 14);
         sprintf(text, "-> Errore! %s <-", errorMessage);
         printCenteredText(text);
+        free(text);
     }
     else {
         printCenteredText("-> Attesa Input <-");
@@ -51,11 +52,13 @@ void printLoginMenuForm(char* username, char* password, int selected, int error,
     printCenteredText(selected == 0 ? "-> Username:" : "Username:");
 
     // Stampa l'username con il box
-    char usernameWithBox[38];
+    char* usernameWithBox = malloc(38);
     usernameWithBox[0] = '\0';
 
     buildInputBox(usernameWithBox, username);
     printCenteredText(usernameWithBox);
+
+    free(usernameWithBox);
 
     // Fine stampa username
 
@@ -64,7 +67,7 @@ void printLoginMenuForm(char* username, char* password, int selected, int error,
 
     // Stampa la password con degli asterischi
 
-    char passwordHidden[32];
+    char* passwordHidden = malloc(33); // Odio i puntatori
     passwordHidden[0] = '\0';
 
     for (int i = 0; i < strlen(password); i++) {
@@ -72,11 +75,14 @@ void printLoginMenuForm(char* username, char* password, int selected, int error,
         passwordHidden[i + 1] = '\0';
     }
 
-    char passwordWithBox[38];
+    char* passwordWithBox = malloc(38);
     passwordWithBox[0] = '\0';
 
     buildInputBox(passwordWithBox, passwordHidden);
     printCenteredText(passwordWithBox);
+
+    free(passwordHidden);
+    free(passwordWithBox);
 
     // Fine stampa password
 
@@ -101,11 +107,11 @@ void printLoginMenuForm(char* username, char* password, int selected, int error,
 //
 int launchLoginMenu(Credentials* credentials) {
     // Definisci i campi
-    char campi[2][32];
+    char campi[2][33];
 
     // Pulisci i campi
-    clearStringBuffer(campi[0], 32);
-    clearStringBuffer(campi[1], 32);
+    clearStringBuffer(campi[0], 33);
+    clearStringBuffer(campi[1], 33);
 
     int cursors[2] = {0, 0};
 
@@ -114,12 +120,13 @@ int launchLoginMenu(Credentials* credentials) {
 
     // Errore
     int error = 0;
-    char* errorMessage = NULL;
+    char* errorMessage = malloc(128);
 
     // Loop per il menu
     do {
         // Pulisci lo schermo
         system("cls");
+
         fflush(stdout);
 
         // Stampa il form di login
@@ -140,7 +147,7 @@ int launchLoginMenu(Credentials* credentials) {
 
         // Se il carattere è una lettera o un numero fra 0 e 9
         if ((c >= 97 && c <= 122) || (c >= 65 && c <= 90) || (c >= 48 && c <= 57)) {
-            if (cursors[selected] < 31) {
+            if (cursors[selected] < 32) {
                 campi[selected][cursors[selected]++] = c;
             }
             continue;
@@ -172,8 +179,11 @@ int launchLoginMenu(Credentials* credentials) {
     } while (1);
 
     // Copia i campi nella struttura delle credenziali
-    strcpy(credentials->username, campi[0]);
-    strcpy(credentials->password, campi[1]);
+    sprintf(credentials->username, "%s", campi[0]);
+    sprintf(credentials->password, "%s", campi[1]);
+
+    // Libera la memoria
+    free(errorMessage);
 
     // Torna al menu principale
     return 0;

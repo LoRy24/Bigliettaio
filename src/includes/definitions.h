@@ -28,9 +28,6 @@
 #define ERROR_MESSAGE_NOT_FOUND             "Elemento non trovato!"
 #define ERROR_MESSAGE_NOT_IMPLEMENTED       "Funzionalità non implementata!"
 
-// Impostazioni dei form
-#define FORM_WIDTH                          90
-
 // Tasti
 #define KEY_ENTER                           13
 #define KEY_BACKSPACE                       8
@@ -76,8 +73,8 @@ typedef struct {
  * Struttura per le credenziali
  */
 typedef struct {
-    char username[32];
-    char password[32];
+    char username[33];
+    char password[33];
 } Credentials;
 
 #pragma endregion

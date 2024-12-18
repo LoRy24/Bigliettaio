@@ -47,13 +47,22 @@ void printWhiteSpace();
 
 /**
  * Stampa un testo allineato a sinistra all'interno di una cornice composta da '#'.
+ * 
+ * @param text Il testo da allineare a sinistra.
  */
 void printLeftAlignedText(const char* text);
 
 /**
  * Stampa un testo allineato a destra all'interno di una cornice composta da '#'.
+ * 
+ * @param text Il testo da allineare a destra.
  */
 void printRightAlignedText(const char* text);
+
+/**
+ * Vai a capo
+ */
+void newline();
 
 // Utility forms
 
@@ -67,12 +76,10 @@ void printHead();
 /**
  * Stampa il form del menu principale
  * 
- * @param error Se è presente un errore
- * @param errorMessage Il messaggio di errore
  * @param logged Se l'utente è loggato
  * @param userAccount L'account dell'utente
  */
-void printMainMenuForm(int error, const char* errorMessage, int logged, Account userAccount);
+void printMainMenuForm(int logged, Account userAccount);
 
 /**
  * Questa funzione avvia il menù principale.
@@ -101,6 +108,14 @@ void printLoginMenuForm(char* username, char* password, int selected, int error,
  * @param credentials Le credenziali dell'utente
  */
 int launchLoginMenu(Credentials* credentials);
+
+/**
+ * Questa funzione sposta il cursore nella console alla posizione specificata.
+ * 
+ * @param x La coordinata x
+ * @param y La coordinata y
+ */
+void moveCursor(int x, int y);
 
 #pragma endregion
 

@@ -24,7 +24,7 @@ void printLine() {
     }
 
     // Stampa i caratteri finali
-    printf(" #\n");
+    printf(" #");
 }
 
 void printWhiteSpace() {
@@ -40,7 +40,7 @@ void printWhiteSpace() {
     }
 
     // Stampa i caratteri finali
-    printf(" #\n");
+    printf(" #");
 }
 
 void printCenteredText(const char* text) {
@@ -79,7 +79,7 @@ void printCenteredText(const char* text) {
     }
 
     // Stampa i caratteri finali
-    printf(" #\n");
+    printf(" #");
 }
 
 void printLeftAlignedText(const char* text) {
@@ -108,7 +108,7 @@ void printLeftAlignedText(const char* text) {
     }
 
     // Stampa i caratteri finali
-    printf(" #\n");
+    printf(" #");
 }
 
 void printRightAlignedText(const char* text) {
@@ -137,7 +137,15 @@ void printRightAlignedText(const char* text) {
     }
 
     // Stampa i caratteri finali
-    printf(" #\n");
+    printf(" #");
+}
+
+void newline() {
+    printf("\n");
+}
+
+void moveCursor(int x, int y) {
+    printf("\033[%d;%dH", y, x);
 }
 
 #pragma endregion

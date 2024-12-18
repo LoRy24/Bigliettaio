@@ -18,7 +18,50 @@
 
 #pragma region Form
 
-void printMainMenuForm(int error, const char* errorMessage, int logged, Account userAccount) {
+void printUserAccount(int logged, Account userAccount) {
+    // Scrivi l'account
+    if (logged == 1) {
+        // Prepara la stringa dell'account
+        char* text = malloc(strlen(userAccount.name) + strlen(userAccount.surname) + 32); // Grazie per il 32 che mi ha fatto perdere una settimana a smattare
+        sprintf(text, "%s%s %s", userAccount.admin == 1 ? ADMIN_PREFIX : "", userAccount.name, userAccount.surname);
+
+        // Stampa a schermo
+        moveCursor(0, 19);
+        printCenteredText(text);
+
+        // Pulisci la memoria
+        free(text);
+    }
+    else {
+        // Stampa a schermo
+        moveCursor(0, 19);
+        printCenteredText("Non autenticato");
+    }
+
+    // Azzera il cursore
+    moveCursor(0, 0);
+}
+
+void printErrorMessage(const char* errorMessage) {
+    // Prepara il messaggio di errore
+    char* text = malloc(strlen(errorMessage) + 16);
+    sprintf(text, "-> Errore! %s <-", errorMessage);
+
+    // Stampa il messaggio di errore
+    moveCursor(0, 9);
+    printCenteredText(text);
+
+    // Pulisci la memoria
+    free(text);
+
+    // Azzera il cursore
+    moveCursor(0, 0);
+}
+
+void printMainMenuForm(int logged, Account userAccount) {
+    // Pulisci lo schermo
+    system("cls");
+
     // Head
     printHead();
 
@@ -28,25 +71,14 @@ void printMainMenuForm(int error, const char* errorMessage, int logged, Account 
     printCenteredText("Scegli un operazione da svolgere");
 
     // Messaggio sotto-titolo
-    if (error == 1) {
-        char* text = malloc(strlen(errorMessage) + 14);
-        sprintf(text, "-> Errore! %s <-", errorMessage);
-        printCenteredText(text);
-    }
-    else {
-        printCenteredText("-> Attesa Input <-");
-    }
+    printCenteredText("-> Attesa Input <-");
 
     // Pulsanti
     printWhiteSpace();
     printCenteredText("< 1. Lista Biglietti >");
     printCenteredText("< 2. Effettua Login  >");
     printCenteredText("< 3. Crea Account    >");
-
-    // Se è loggato, mostra il pulsante per il logout
-    if (logged == 1) {
-        printCenteredText("< 4. Effettua Logout >");
-    }
+    printCenteredText("< 4. Effettua Logout >");
 
     printWhiteSpace();
     printCenteredText("< ctrl + x. Esci >");
@@ -54,43 +86,34 @@ void printMainMenuForm(int error, const char* errorMessage, int logged, Account 
     printCenteredText("Account: ");
 
     // Scrivi l'account
-    if (logged == 1) {
-        // Prepara la stringa dell'account  
-        char* text = malloc(strlen(userAccount.name) + strlen(userAccount.surname) + 1);
-        sprintf(text, "%s%s %s",userAccount.admin == 1 ? ADMIN_PREFIX : "", userAccount.name, userAccount.surname);
-        printCenteredText(text);
-    }
-    else {
-        printCenteredText("Non autenticato");
-    }
+    printUserAccount(logged, userAccount);
 
+    moveCursor(0, 20);
     printWhiteSpace();
     printLine();
+
+    // Azzera il cursore
+    moveCursor(0, 0);
 }
 
 void launchMainMenu(int* logged, Account* userAccount) {
-    // Definisco eventuali errori
-    int errorState = 0;
-    char* errorMessage;
-    errorMessage = NULL;
-
     // Credenziali temporanee
-    Credentials credentials;
+    Credentials* credentials = malloc(sizeof(Credentials));
+    clearStringBuffer(credentials->username, 33);
+    clearStringBuffer(credentials->password, 33);
+
+    // Stampa il form principale
+    printMainMenuForm(*logged, *userAccount);
 
     // Inizia il ciclo di richiesta
     do {
-        // Pulisci lo schermo
-        system("cls");
-        fflush(stdout);
-
-        // Stampa il form principale
-        printMainMenuForm(errorState, errorMessage, *logged, *userAccount);
-
         // Leggi carattere da tastiera
-        char c = _getch();
+        int c = _getch();
 
         // Se il carattere è CTRL + X, esci dal programma
         if (c == KEY_CTRL_X) {
+            // Pulisci lo schermo
+            system("cls");
             break;
         }
 
@@ -99,46 +122,50 @@ void launchMainMenu(int* logged, Account* userAccount) {
             case '1': {
                 // Se l'utente non è autenticato, dai un errore
                 if (*logged == 0) {
-                    errorState = 1;
-                    errorMessage = ERROR_MESSAGE_NOT_LOGGED;
-                    continue;
+                    printErrorMessage(ERROR_MESSAGE_NOT_LOGGED);
+                    break;
                 }
+
+                break;
             }
 
             case '2': {
                 // Se l'utente è già autenticato, dai un errore
                 if (*logged == 1) {
-                    errorState = 1;
-                    errorMessage = ERROR_MESSAGE_ALREADY_LOGGED;
-                    continue;
+                    printErrorMessage(ERROR_MESSAGE_ALREADY_LOGGED);
+                    break;
                 }
 
                 // Esegui il form di login
-                int loginMenu = launchLoginMenu(&credentials);
+                int loginMenu = launchLoginMenu(credentials);
+
+                // Ristampa il form principale
+                printMainMenuForm(*logged, *userAccount);
 
                 if (loginMenu == 1) {
                     goto mainMenuEnd;
                 }
                 else if (loginMenu == 2) {
-                    continue;
+                    break;
                 }
                 else if (loginMenu == 0) {
                     // Impostazioni bools
-                    errorState = 0;
                     *logged = 1; // Imposta lo stato di login
 
                     // Prendi le credenziali e salva l'account
-                    strcpy(userAccount->name, credentials.username);
+                    sprintf(userAccount->name, "%s", credentials->username);
                     userAccount->admin = 1; // DEBUG: Imposta per ora admin
 
-                    // Continua
-                    continue;
+                    // Scrivi l'account
+                    printUserAccount(*logged, *userAccount);
+
+                    // Esci dallo switch
+                    break;
                 }
                 else {
                     // Errore di comando non trovato
-                    errorState = 1;
-                    errorMessage = ERROR_MESSAGE_INTERNAL_ERROR;
-                    continue;
+                    printErrorMessage(ERROR_MESSAGE_INTERNAL_ERROR);
+                    break;
                 }
 
                 // Non fare altro
@@ -146,39 +173,49 @@ void launchMainMenu(int* logged, Account* userAccount) {
             }
 
             case '3': {
-                errorState = 1;
-                errorMessage = ERROR_MESSAGE_NOT_IMPLEMENTED;
-                continue;
+                printErrorMessage(ERROR_MESSAGE_NOT_IMPLEMENTED);
+                break;
             }
 
             case '4': {
                 // Se l'utente non è autenticato, dai un errore
                 if (*logged == 0) {
-                    errorState = 1;
-                    errorMessage = ERROR_MESSAGE_NOT_LOGGED;
-                    continue;
+                    printErrorMessage(ERROR_MESSAGE_NOT_LOGGED);
+                    break;
                 }
 
                 // Effettua il logout
                 *logged = 0;
-                strcpy(userAccount->name, "");
+
+                // Pulisci le credenziali
+                clearStringBuffer(credentials->username, 32);
+                clearStringBuffer(credentials->password, 32);
+
+                // Pulisci l'account
+                clearStringBuffer(userAccount->name, 32);
+                clearStringBuffer(userAccount->surname, 32);
                 userAccount->admin = 0;
-                credentials = (Credentials) { "", "" }; // Pulisci le credenziali
+                userAccount->age = 0;
+
+                printUserAccount(*logged, *userAccount);
 
                 // Continua
-                continue;
+                break;
             }
         
             default: {
                 // Errore di comando non trovato
-                errorState = 1;
-                errorMessage = "Comando invalido!";
+                printErrorMessage(ERROR_MESSAGE_INVALID_COMMAND);
                 break;
             }
         }
     } while(1);
 
     mainMenuEnd:
+
+    // Pulisci la memoria
+    free(credentials);
+
     return;
 }
 
