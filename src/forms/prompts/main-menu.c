@@ -18,6 +18,8 @@
 
 #pragma region Form
 
+#pragma region Funzioni Grafiche Form
+
 void printUserAccount(int logged, Account userAccount) {
     // Scrivi l'account
     if (logged == 1) {
@@ -26,7 +28,7 @@ void printUserAccount(int logged, Account userAccount) {
         sprintf(text, "%s%s %s", userAccount.admin == 1 ? ADMIN_PREFIX : "", userAccount.name, userAccount.surname);
 
         // Stampa a schermo
-        moveCursor(0, 19);
+        moveCursor(0, 20);
         printCenteredText(text);
 
         // Pulisci la memoria
@@ -34,7 +36,7 @@ void printUserAccount(int logged, Account userAccount) {
     }
     else {
         // Stampa a schermo
-        moveCursor(0, 19);
+        moveCursor(0, 20);
         printCenteredText("Non autenticato");
     }
 
@@ -75,10 +77,11 @@ void printMainMenuForm(int logged, Account userAccount) {
 
     // Pulsanti
     printWhiteSpace();
-    printCenteredText("< 1. Lista Biglietti >");
-    printCenteredText("< 2. Effettua Login  >");
-    printCenteredText("< 3. Crea Account    >");
-    printCenteredText("< 4. Effettua Logout >");
+    printCenteredText("< 1. Lista Biglietti   >");
+    printCenteredText("< 2. Effettua Login    >");
+    printCenteredText("< 3. Crea Account      >");
+    printCenteredText("< 4. Effettua Logout   >");
+    printCenteredText("< 5. Pannello Gestione >");
 
     printWhiteSpace();
     printCenteredText("< ctrl + x. Esci >");
@@ -88,13 +91,15 @@ void printMainMenuForm(int logged, Account userAccount) {
     // Scrivi l'account
     printUserAccount(logged, userAccount);
 
-    moveCursor(0, 20);
+    moveCursor(0, 21);
     printWhiteSpace();
     printLine();
 
     // Azzera il cursore
     moveCursor(0, 0);
 }
+
+#pragma endregion
 
 void launchMainMenu(int* logged, Account* userAccount) {
     // Credenziali temporanee
@@ -119,6 +124,7 @@ void launchMainMenu(int* logged, Account* userAccount) {
 
         // In base al carattere letto
         switch (c) {
+            // Lista Biglietti
             case '1': {
                 // Se l'utente non è autenticato, dai un errore
                 if (*logged == 0) {
@@ -129,6 +135,7 @@ void launchMainMenu(int* logged, Account* userAccount) {
                 break;
             }
 
+            // Login
             case '2': {
                 // Se l'utente è già autenticato, dai un errore
                 if (*logged == 1) {
@@ -172,11 +179,13 @@ void launchMainMenu(int* logged, Account* userAccount) {
                 break;
             }
 
+            // Crea Account
             case '3': {
                 printErrorMessageMainMenu(ERROR_MESSAGE_NOT_IMPLEMENTED);
                 break;
             }
 
+            // Logout
             case '4': {
                 // Se l'utente non è autenticato, dai un errore
                 if (*logged == 0) {
@@ -203,6 +212,12 @@ void launchMainMenu(int* logged, Account* userAccount) {
                 break;
             }
         
+            // Pannello di gestione
+            case '5': {
+                printErrorMessageMainMenu(ERROR_MESSAGE_NOT_IMPLEMENTED);
+                break;
+            }
+
             default: {
                 // Errore di comando non trovato
                 printErrorMessageMainMenu(ERROR_MESSAGE_INVALID_COMMAND);
@@ -211,12 +226,14 @@ void launchMainMenu(int* logged, Account* userAccount) {
         }
     } while(1);
 
+    // Fine del form
     mainMenuEnd:
 
     // Pulisci la memoria
     free(credentials);
 
-    return;
+    // Pulisci lo schermo
+    system("cls");
 }
 
 #pragma endregion
