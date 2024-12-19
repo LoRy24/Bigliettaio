@@ -49,6 +49,9 @@ int getConsoleWidth();
  * Entry point del programma
  */
 int main() {
+    // Imposta il charset in UTF-8
+    system("chcp 65001");
+
     // Imposta la larghezza del form
     FORM_WIDTH = getConsoleWidth();
 
