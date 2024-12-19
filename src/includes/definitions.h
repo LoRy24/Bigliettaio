@@ -27,6 +27,9 @@
 #define ERROR_MESSAGE_NOT_ADMIN             "Non sei un amministratore!"
 #define ERROR_MESSAGE_NOT_FOUND             "Elemento non trovato!"
 #define ERROR_MESSAGE_NOT_IMPLEMENTED       "Funzionalità non implementata!"
+#define ERROR_MESSAGE_INVALID_CREDENTIALS   "Credenziali non valide!"
+#define ERROR_MESSAGE_EMPTY_PASSWORD        "La password non può essere vuota!"
+#define ERROR_MESSAGE_EMPTY_USERNAME        "L'username non può essere vuoto!"
 
 // Tasti
 #define KEY_ENTER                           13

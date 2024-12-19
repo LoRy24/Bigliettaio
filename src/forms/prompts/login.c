@@ -12,10 +12,6 @@
 
 #pragma endregion
 
-#pragma region Buffers
-
-#pragma endregion
-
 //
 // Login Form
 //
@@ -213,7 +209,19 @@ int launchLoginMenu(Credentials* credentials) {
 
         // Se il carattere è invio, esegui il login
         if (c == KEY_ENTER) {
-            // Per oraesce per ridare il controllo al menu principale
+            // Controlla che l'username non sia vuoto
+            if (strlen(campi[0]) == 0) {
+                printErrorMessageLogin(ERROR_MESSAGE_EMPTY_USERNAME);
+                continue;
+            }
+
+            // Controlla che la password non sia vuota
+            if (strlen(campi[1]) == 0) {
+                printErrorMessageLogin(ERROR_MESSAGE_EMPTY_PASSWORD);
+                continue;
+            }
+
+            // Per ora tutto ok
             break;
         }
 
