@@ -37,6 +37,11 @@ void printWelcomeMessage();
  */
 int getConsoleWidth();
 
+/**
+ * Crea le cartelle necessarie per il funzionamento del programma.
+ */
+int createFolders();
+
 #pragma endregion
 
 //
@@ -51,6 +56,18 @@ int getConsoleWidth();
 int main() {
     // Imposta il charset in UTF-8
     SetConsoleOutputCP(CP_UTF8);
+
+    // Setup dei files
+    int result = createFolders();
+
+    // Controllo se è andato tutto bene
+    if (result != 0) {
+        // Stampa un errore
+        printf("Errore durante la creazione delle cartelle necessarie per il funzionamento del programma.\n");
+
+        // Esci dal programma
+        return 1;
+    }
 
     // Imposta la larghezza del form
     FORM_WIDTH = getConsoleWidth();
@@ -146,6 +163,19 @@ int getConsoleWidth() {
 
     // Ritorna la larghezza
     return columns;
+}
+
+int createFolders() {
+    // Crea la cartella data
+    int s1 = mkdir(DATA_FOLDER);
+
+    // Controllo se la cartella è stata creata
+    if (s1 != 0 && errno != EEXIST) {
+        return 1;
+    }
+
+    // Tutto ok
+    return 0;
 }
 
 #pragma endregion

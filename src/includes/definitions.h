@@ -40,6 +40,9 @@
 #define KEY_CTRL_X                          24
 #define KEY_ARROWS                          224
 
+// Files
+#define DATA_FOLDER                         "data"
+
 #pragma endregion
 
 //
