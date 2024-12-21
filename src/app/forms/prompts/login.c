@@ -18,7 +18,7 @@
 
 #pragma region Form
 
-void buildInputBox(char* buffer, char* text) {
+void buildLoginInputBox(char* buffer, char* text) {
     // Costruisci il box
     sprintf(buffer, "|> %s <|", text);
 }
@@ -45,7 +45,7 @@ void printUsernamePrompt(char* username) {
     usernameWithBox[0] = '\0';
 
     // Costruisci il box
-    buildInputBox(usernameWithBox, username);
+    buildLoginInputBox(usernameWithBox, username);
 
     // Stampalo a schermo
     moveCursor(0, 12);
@@ -74,7 +74,7 @@ void printPasswordPrompt(char* password) {
     passwordWithBox[0] = '\0';
 
     // Costruisci il box
-    buildInputBox(passwordWithBox, passwordHidden);
+    buildLoginInputBox(passwordWithBox, passwordHidden);
 
     // Stampalo a schermo
     moveCursor(0, 15);

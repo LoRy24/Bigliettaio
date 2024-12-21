@@ -1,4 +1,4 @@
-FILES = ./src/main.c ./src/utils.c ./src/forms/forms.c ./src/forms/prompts/login.c ./src/forms/prompts/main-menu.c
+FILES = ./src/app/main.c ./src/app/utils.c ./src/app/forms/forms.c ./src/app/forms/prompts/login.c ./src/app/forms/prompts/main-menu.c
 
 build:
 	gcc -o ./out/program.exe -I./src/includes $(FILES)

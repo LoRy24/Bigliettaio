@@ -15,7 +15,7 @@
 
 #pragma region Definizioni Locali
 
-// Spinner caricamento 
+// Spinner caricamento ⣾⣽⣻⢿⡿⣟⣯⣷
 char SPINNER_STATES[8] = {'|', '/', '-', '\\', '|', '/', '-', '\\'};
 
 #pragma endregion
@@ -50,7 +50,7 @@ int getConsoleWidth();
  */
 int main() {
     // Imposta il charset in UTF-8
-    system("chcp 65001");
+    SetConsoleOutputCP(CP_UTF8);
 
     // Imposta la larghezza del form
     FORM_WIDTH = getConsoleWidth();
