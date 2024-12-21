@@ -14,6 +14,10 @@
 // Librerie interne al progetto
 #include "globals.h"
 
+// Librerie forms
+#include "forms/login.h"
+#include "forms/main-menu.h"
+
 #pragma endregion
 
 //
@@ -71,39 +75,7 @@ void newline();
  */
 void printHead();
 
-// Menu Principale
-
-/**
- * Stampa il form del menu principale
- * 
- * @param logged Se l'utente è loggato
- * @param userAccount L'account dell'utente
- */
-void printMainMenuForm(int logged, Account userAccount);
-
-/**
- * Questa funzione avvia il menù principale.
- * 
- * @param logged Lo stato di login dell'utente
- * @param userAccount L'account dell'utente
- */
-void launchMainMenu(int* logged, Account* userAccount);
-
-// Login
-
-/**
- * Stampa il form del login
- * 
- * @param selected Il campo selezionato
- */
-void printLoginMenuForm(int selected);
-
-/**
- * Avvia il menu di login
- * 
- * @param credentials Le credenziali dell'utente
- */
-int launchLoginMenu(Credentials* credentials);
+// Cursor
 
 /**
  * Questa funzione sposta il cursore nella console alla posizione specificata.
