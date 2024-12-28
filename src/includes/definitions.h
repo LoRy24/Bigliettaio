@@ -59,18 +59,30 @@ typedef struct {
     uint32_t eventId;
     uint32_t seat;
     uint16_t price;
-    char name[50];
-    char surname[50];
-    char email[50];
-    char phone[20];
 } Ticket;
+
+/**
+ * Struttura per gestire un evento
+ */
+typedef struct {
+    uint32_t eventId;
+    char name[33]; // Max 32 caratteri
+    char location[33]; // Max 32 caratteri
+    char date[11]; // Formato: DD/MM/YYYY
+    char time[6]; // Formato: HH:MM
+    float price;
+    uint16_t freeSeats;
+    uint16_t totalSeats;
+} Event;
 
 /**
  * Struttura per l'account utente
  */
 typedef struct {
-    char name[128];
-    char surname[128];
+    char name[33]; // Max 32 caratteri
+    char surname[33]; // Max 32 caratteri
+    char username[33]; // Max 32 caratteri
+    char hashedPassword[65]; // Max 64 caratteri
     int age;
     int admin;
 } Account;
@@ -79,8 +91,8 @@ typedef struct {
  * Struttura per le credenziali
  */
 typedef struct {
-    char username[33];
-    char password[33];
+    char username[33]; // Max 32 caratteri
+    char password[33]; // Max 32 caratteri
 } Credentials;
 
 #pragma endregion

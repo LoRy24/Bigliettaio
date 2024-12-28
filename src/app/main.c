@@ -80,8 +80,10 @@ int main() {
 
     // Account dell'utente
     Account* userAccount = malloc(sizeof(Account));
-    clearStringBuffer(userAccount->name, 128);
-    clearStringBuffer(userAccount->surname, 128);
+    clearStringBuffer(userAccount->name, 129);
+    clearStringBuffer(userAccount->surname, 129);
+    clearStringBuffer(userAccount->username, 33);
+    clearStringBuffer(userAccount->hashedPassword, 65);
     userAccount->admin = 0;
     userAccount->age = 0;
 
