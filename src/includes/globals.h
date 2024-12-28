@@ -26,6 +26,7 @@
 #include "definitions.h"
 #include "forms.h"
 #include "utils.h"
+#include "logic/money.h"
 
 // Definizione form width
 int FORM_WIDTH;

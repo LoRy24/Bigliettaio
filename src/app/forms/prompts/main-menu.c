@@ -132,6 +132,25 @@ void launchMainMenu(int* logged, Account* userAccount) {
                     break;
                 }
 
+                // Lancia il form per la vendita dei biglietti
+                int ticketsMenu = launchTicketsMenu();
+
+                // Ristampa il form principale
+                printMainMenuForm(*logged, *userAccount);
+
+                if (ticketsMenu == 1) {
+                    goto mainMenuEnd;
+                }
+                else if (ticketsMenu == 2) {
+                    break;
+                }
+                else {
+                    // Errore di comando non trovato
+                    printErrorMessageMainMenu(ERROR_MESSAGE_INTERNAL_ERROR);
+                    break;
+                }
+
+                // Non fare altro
                 break;
             }
 
