@@ -91,6 +91,25 @@ void printTicketCard(Event event, int row);
 // Menu
 
 /**
+ * Stampa la card di un evento
+ * 
+ * @param event Evento da stampare
+ * @param selected Indice dell'evento selezionato
+ * @param eventsCount Numero totale di eventi
+ * @param updateCursor Se deve aggiornare il cursore
+ */
+void displayEventCard(Event event, int selected, int eventsCount, int updateCursor);
+
+/**
+ * Stampa il form per la vendita dei biglietti
+ * 
+ * @param displayEvent Evento da visualizzare
+ * @param eventsCount Numero totale di eventi
+ * @param selected Indice dell'evento selezionato
+ */
+void printTicketsMenuForm(Event displayEvent, int eventsCount, int selected);
+
+/**
  * Stampa il form per la vendita dei biglietti
  * 
  * Ritorna:
