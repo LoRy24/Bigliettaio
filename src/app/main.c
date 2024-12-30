@@ -60,10 +60,13 @@ int main() {
     // Setup dei files
     int result = createFolders();
 
+    // Crea file eventi
+    int eventsFileCreation = createEventsFile();
+
     // Controllo se è andato tutto bene
-    if (result != 0) {
+    if (result != 0 || eventsFileCreation != 0) {
         // Stampa un errore
-        printf("Errore durante la creazione delle cartelle necessarie per il funzionamento del programma.\n");
+        printf("Errore durante la creazione delle risorse necessarie per il funzionamento del programma.\n");
 
         // Esci dal programma
         return 1;

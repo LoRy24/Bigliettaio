@@ -144,6 +144,10 @@ void launchMainMenu(int* logged, Account* userAccount) {
                 else if (ticketsMenu == 2) {
                     break;
                 }
+                else if (ticketsMenu == 3) {
+                    printErrorMessageMainMenu(ERROR_NO_TICKETS_FOUND);
+                    break;
+                }
                 else {
                     // Errore di comando non trovato
                     printErrorMessageMainMenu(ERROR_MESSAGE_INTERNAL_ERROR);

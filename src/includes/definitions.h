@@ -30,6 +30,7 @@
 #define ERROR_MESSAGE_INVALID_CREDENTIALS   "Credenziali non valide!"
 #define ERROR_MESSAGE_EMPTY_PASSWORD        "La password non può essere vuota!"
 #define ERROR_MESSAGE_EMPTY_USERNAME        "L'username non può essere vuoto!"
+#define ERROR_NO_TICKETS_FOUND              "Nessun biglietto trovato! Errore interno."
 
 // Tasti
 #define KEY_ENTER                           13

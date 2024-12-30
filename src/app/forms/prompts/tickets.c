@@ -262,46 +262,9 @@ int launchTicketsMenu() {
     // Stampa il form
     system("cls");
 
-    #pragma region Eventi
-
-    Event event1 = {
-        1,
-        "Gli scrocconi",
-        "Magi",
-        "25/02/2025",
-        "20:30",
-        50,
-        32,
-        100
-    };
-
-    Event event2 = {
-        2,
-        "Gli scrocconi 2",
-        "Magi",
-        "25/02/2026",
-        "20:30",
-        55,
-        32,
-        100
-    };
-
-    Event event3 = {
-        3,
-        "F1 Monza",
-        "Autodromo Monza",
-        "5/09/2025",
-        "15:00",
-        249,
-        3150,
-        10000
-    };
-
-    // Array di eventi
-    Event events[3] = {event1, event2, event3};
-    int tickets = 3;
-
-    #pragma endregion
+    // Eventi
+    int tickets;
+    Event* events = loadEvents(&tickets);
 
     // Se i tickets caricati sono 0, esci
     if (tickets == 0) {
