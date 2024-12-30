@@ -92,6 +92,10 @@ void printTicketCard(Event event, int row);
 
 /**
  * Stampa il form per la vendita dei biglietti
+ * 
+ * Ritorna:
+ * 1 - Se l'utente ha premuto CTRL + X
+ * 2 - Se l'utente ha premuto ESC o torna al menu principale
  */
 int launchTicketsMenu();
 

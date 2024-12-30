@@ -201,10 +201,20 @@ void printTicketCard(Event event, int row) {
 
 #pragma region Form
 
-void displayEventCard(Event event) {
+void displayEventCard(Event event, int selected, int eventsCount, int updateCursor) {
     // Stampa l'evento
     printTicketCard(event, 10);
     writeSelectionArrows(0);
+
+    if (updateCursor) {
+        // Cambia la riga del cursore
+        moveCursor(0, 23);
+
+        // Scrivi la riga della selezione
+        char* text = malloc(128);
+        sprintf(text, "-> %d/%d Eventi Visualizzati <-", selected + 1, eventsCount);
+        printCenteredText(text);
+    }
 }
 
 void printTicketsMenuForm(Event displayEvent, int eventsCount, int selected) {
@@ -218,7 +228,7 @@ void printTicketsMenuForm(Event displayEvent, int eventsCount, int selected) {
     printWhiteSpace();
 
     // Mostra l'evento
-    displayEventCard(displayEvent);
+    displayEventCard(displayEvent, selected, eventsCount, 0);
     
     // Azzera il cursore
     moveCursor(0, 22);
@@ -240,25 +250,97 @@ void printTicketsMenuForm(Event displayEvent, int eventsCount, int selected) {
     // Fine menu
     printWhiteSpace();
     printLine();
+
+    // Azzera cursore
+    moveCursor(0, 0);
 }
 
 int launchTicketsMenu() {
+    // Valori funzionali
+    int selectedTicket = 0;
+
     // Stampa il form
     system("cls");
 
-    Event event;
-    strcpy(event.name, "Gli scrocconi");
-    strcpy(event.location, "Magi");
-    strcpy(event.date, "25/02/2025");
-    strcpy(event.time, "20:30");
-    event.totalSeats = 100;
-    event.freeSeats = 32;
-    event.price = 69.69;
+    #pragma region Eventi
 
-    printTicketsMenuForm(event, 1, 0);
+    Event event1;
+    strcpy(event1.name, "Gli scrocconi");
+    strcpy(event1.location, "Magi");
+    strcpy(event1.date, "25/02/2025");
+    strcpy(event1.time, "20:30");
+    event1.totalSeats = 100;
+    event1.freeSeats = 32;
+    event1.price = 50;
 
+    Event event2;
+    strcpy(event2.name, "Gli scrocconi 2");
+    strcpy(event2.location, "Magi");
+    strcpy(event2.date, "25/02/2026");
+    strcpy(event2.time, "20:30");
+    event2.totalSeats = 100;
+    event2.freeSeats = 32;
+    event2.price = 55;
+
+    Event event3;
+    strcpy(event3.name, "Barbagianni");
+    strcpy(event3.location, "Milano");
+    strcpy(event3.date, "12/12/2026");
+    strcpy(event3.time, "21:30");
+    event3.totalSeats = 40000;
+    event3.freeSeats = 8192;
+    event3.price = 100;
+
+    // Array di eventi
+    Event events[3] = { event1, event2, event3 };
+    int tickets = 3;
+
+    #pragma endregion
+
+    // Mostra il form
+    printTicketsMenuForm(events[selectedTicket], tickets, selectedTicket);
+
+    // Loop operazioni
     while (1) {
-        
+        // Leggi carattere da tastiera
+        int c = _getch();
+
+        // Verifica se è una freccia (destra o sinistra)
+        if (c == KEY_ARROWS) {
+            // Legge il secondo carattere, che identifica la freccietta
+            c = _getch();
+
+            // Se non è nessuna delle due freccie, continua
+            if (c != KEY_LEFT_ARROW && c != KEY_RIGHT_ARROW) {
+                continue;
+            }
+
+            // Se è freccia destra ma ci si trova alla fine o freccia sinistra ma ci si trova all'inizio, continua
+            if ((c == KEY_RIGHT_ARROW && selectedTicket == tickets - 1) || (c == KEY_LEFT_ARROW && selectedTicket == 0)) {
+                continue;
+            }
+
+            // Modifica la selezione
+            selectedTicket += (c == KEY_RIGHT_ARROW) ? 1 : -1;
+
+            // Mostra il biglietto
+            displayEventCard(events[selectedTicket], selectedTicket, tickets, 1);
+
+            // Continua
+            continue;
+        }
+
+        // Se equivale a CTRL + X, esci
+        if (c == KEY_CTRL_X) {
+            system("cls");
+            return 1;
+        }
+
+        // Se il carattere è esc, torna al menu principale
+        if (c == KEY_ESCAPE) {
+            system("cls");
+            return 2;
+        }
     }
 
     return 2;
