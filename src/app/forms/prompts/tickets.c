@@ -291,9 +291,18 @@ int launchTicketsMenu() {
     event3.freeSeats = 8192;
     event3.price = 100;
 
+    Event event4;
+    strcpy(event4.name, "F1 Monza");
+    strcpy(event4.location, "Autodromo Monza");
+    strcpy(event4.date, "5/09/2025");
+    strcpy(event4.time, "All Day");
+    event4.totalSeats = 10000;
+    event4.freeSeats = 3150;
+    event4.price = 249;
+
     // Array di eventi
-    Event events[3] = { event1, event2, event3 };
-    int tickets = 3;
+    Event events[4] = {event1, event2, event3, event4};
+    int tickets = 4;
 
     #pragma endregion
 
