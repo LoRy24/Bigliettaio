@@ -264,47 +264,49 @@ int launchTicketsMenu() {
 
     #pragma region Eventi
 
-    Event event1;
-    strcpy(event1.name, "Gli scrocconi");
-    strcpy(event1.location, "Magi");
-    strcpy(event1.date, "25/02/2025");
-    strcpy(event1.time, "20:30");
-    event1.totalSeats = 100;
-    event1.freeSeats = 32;
-    event1.price = 50;
+    Event event1 = {
+        1,
+        "Gli scrocconi",
+        "Magi",
+        "25/02/2025",
+        "20:30",
+        50,
+        32,
+        100
+    };
 
-    Event event2;
-    strcpy(event2.name, "Gli scrocconi 2");
-    strcpy(event2.location, "Magi");
-    strcpy(event2.date, "25/02/2026");
-    strcpy(event2.time, "20:30");
-    event2.totalSeats = 100;
-    event2.freeSeats = 32;
-    event2.price = 55;
+    Event event2 = {
+        2,
+        "Gli scrocconi 2",
+        "Magi",
+        "25/02/2026",
+        "20:30",
+        55,
+        32,
+        100
+    };
 
-    Event event3;
-    strcpy(event3.name, "Barbagianni");
-    strcpy(event3.location, "Milano");
-    strcpy(event3.date, "12/12/2026");
-    strcpy(event3.time, "21:30");
-    event3.totalSeats = 40000;
-    event3.freeSeats = 8192;
-    event3.price = 100;
-
-    Event event4;
-    strcpy(event4.name, "F1 Monza");
-    strcpy(event4.location, "Autodromo Monza");
-    strcpy(event4.date, "5/09/2025");
-    strcpy(event4.time, "All Day");
-    event4.totalSeats = 10000;
-    event4.freeSeats = 3150;
-    event4.price = 249;
+    Event event3 = {
+        3,
+        "F1 Monza",
+        "Autodromo Monza",
+        "5/09/2025",
+        "15:00",
+        249,
+        3150,
+        10000
+    };
 
     // Array di eventi
-    Event events[4] = {event1, event2, event3, event4};
-    int tickets = 4;
+    Event events[3] = {event1, event2, event3};
+    int tickets = 3;
 
     #pragma endregion
+
+    // Se i tickets caricati sono 0, esci
+    if (tickets == 0) {
+        return 3;
+    }
 
     // Mostra il form
     printTicketsMenuForm(events[selectedTicket], tickets, selectedTicket);
