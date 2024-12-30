@@ -44,6 +44,8 @@
 
 // Files
 #define DATA_FOLDER                         "data"
+#define USERS_FOLDER                        "data/users"
+#define EVENTS_FILE                         "data/events.dat"
 
 #pragma endregion
 
@@ -57,24 +59,24 @@
  * Struttura per gestire un biglietto
  */
 typedef struct {
-    uint64_t ticketId;
-    uint32_t eventId;
-    uint32_t seat;
-    uint16_t price;
+    int ticketId;
+    int eventId;
+    int seat;
+    int price;
 } Ticket;
 
 /**
  * Struttura per gestire un evento
  */
 typedef struct {
-    uint32_t eventId;
+    int eventId;
     char name[33]; // Max 32 caratteri
     char location[33]; // Max 32 caratteri
     char date[11]; // Formato: DD/MM/YYYY
     char time[6]; // Formato: HH:MM
     float price;
-    uint16_t freeSeats;
-    uint16_t totalSeats;
+    int freeSeats;
+    int totalSeats;
 } Event;
 
 /**

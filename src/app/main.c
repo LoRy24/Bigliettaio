@@ -176,6 +176,14 @@ int createFolders() {
         return 1;
     }
 
+    // Crea la cartella degli utenti
+    int s2 = mkdir(USERS_FOLDER);
+
+    // Controllo se la cartella è stata creata
+    if (s2 != 0 && errno != EEXIST) {
+        return 2;
+    }
+
     // Tutto ok
     return 0;
 }
