@@ -184,6 +184,11 @@ int launchLoginMenu(Credentials* credentials) {
             // Legge il secondo carattere, che identifica la freccietta
             c = _getch();
 
+            // Se non è nessuna delle due freccie, continua
+            if (c != KEY_UP_ARROW && c != KEY_DOWN_ARROW) {
+                continue;
+            }
+
             // Cambia lo stato
             selected = selected == 0 ? 1 : 0;
             continue;
