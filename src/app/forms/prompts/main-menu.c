@@ -18,6 +18,10 @@
 
 #pragma region Form
 
+//
+// Funzioni Grafiche
+//
+
 #pragma region Funzioni Grafiche Form
 
 void printUserAccount(int logged, Account userAccount) {
@@ -133,18 +137,18 @@ void launchMainMenu(int* logged, Account* userAccount) {
                 }
 
                 // Lancia il form per la vendita dei biglietti
-                int ticketsMenu = launchTicketsMenu();
+                int ticketsMenu = launchTicketsMenu(*userAccount);
 
                 // Ristampa il form principale
                 printMainMenuForm(*logged, *userAccount);
 
-                if (ticketsMenu == 1) {
+                if (ticketsMenu == MENU_PROGRAM_EXIT) {
                     goto mainMenuEnd;
                 }
-                else if (ticketsMenu == 2) {
+                else if (ticketsMenu == MENU_GO_BACK) {
                     break;
                 }
-                else if (ticketsMenu == 3) {
+                else if (ticketsMenu == MENU_NO_TICKETS_FOUND_ERROR) {
                     printErrorMessageMainMenu(ERROR_NO_TICKETS_FOUND);
                     break;
                 }
@@ -172,13 +176,13 @@ void launchMainMenu(int* logged, Account* userAccount) {
                 // Ristampa il form principale
                 printMainMenuForm(*logged, *userAccount);
 
-                if (loginMenu == 1) {
+                if (loginMenu == MENU_PROGRAM_EXIT) {
                     goto mainMenuEnd;
                 }
-                else if (loginMenu == 2) {
+                else if (loginMenu == MENU_GO_BACK) {
                     break;
                 }
-                else if (loginMenu == 0) {
+                else if (loginMenu == MENU_LOGIN_SUCCESS) {
                     // Impostazioni bools
                     *logged = 1; // Imposta lo stato di login
 
