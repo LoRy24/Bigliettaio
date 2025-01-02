@@ -112,11 +112,10 @@ void printTicketsMenuForm(Event displayEvent, int eventsCount, int selected);
 /**
  * Stampa il form per la vendita dei biglietti
  * 
- * Ritorna:
- * 1 - Se l'utente ha premuto CTRL + X
- * 2 - Se l'utente ha premuto ESC o torna al menu principale
+ * @param buyer Account dell'acquirente
+ * @return int Ritorna il codice di uscita del form
  */
-int launchTicketsMenu();
+int launchTicketsMenu(Account buyer);
 
 #pragma endregion
 

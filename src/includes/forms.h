@@ -18,6 +18,7 @@
 #include "forms/login.h"
 #include "forms/main-menu.h"
 #include "forms/tickets.h"
+#include "forms/buy-ticket.h"
 
 #pragma endregion
 

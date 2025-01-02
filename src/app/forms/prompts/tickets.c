@@ -255,7 +255,7 @@ void printTicketsMenuForm(Event displayEvent, int eventsCount, int selected) {
     moveCursor(0, 0);
 }
 
-int launchTicketsMenu() {
+int launchTicketsMenu(Account buyer) {
     // Valori funzionali
     int selectedTicket = 0;
 
@@ -268,7 +268,7 @@ int launchTicketsMenu() {
 
     // Se i tickets caricati sono 0, esci
     if (tickets == 0) {
-        return 3;
+        return MENU_NO_TICKETS_FOUND_ERROR;
     }
 
     // Mostra il form
@@ -307,17 +307,41 @@ int launchTicketsMenu() {
         // Se equivale a CTRL + X, esci
         if (c == KEY_CTRL_X) {
             system("cls");
-            return 1;
+            return MENU_PROGRAM_EXIT;
         }
 
         // Se il carattere è esc, torna al menu principale
         if (c == KEY_ESCAPE) {
             system("cls");
-            return 2;
+            return MENU_GO_BACK;
+        }
+
+        // Se il carattere è invio, seleziona l'evento
+        if (c == KEY_ENTER) {
+            int purchaseMenuExitStatus = launchTicketPurchaseMenu(events[selectedTicket], buyer);
+
+            // Casi di uscita
+            if (purchaseMenuExitStatus == MENU_GO_BACK) { // Torna a questo menu
+                continue;
+            }
+            else if (purchaseMenuExitStatus == MENU_GOTO_MAIN_MENU) { // Torna a menu principale post acquisto
+                system("cls");
+                return MENU_GO_BACK; // Menu principale
+            }
+            else if (purchaseMenuExitStatus == MENU_PROGRAM_EXIT) { // Uscita dal programma
+                system("cls");
+                return MENU_PROGRAM_EXIT; // Uscita
+            }
+            else {
+                // Errore interno
+                system("cls");
+                return MENU_INTERNAL_ERROR;
+            }
         }
     }
 
-    return 2;
+    // Torna endre
+    return MENU_GO_BACK;
 }
 
 #pragma endregion

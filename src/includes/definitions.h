@@ -46,7 +46,15 @@
 // Files
 #define DATA_FOLDER                         "data"
 #define USERS_FOLDER                        "data/users"
-#define EVENTS_FILE                         "data/events.dat"
+#define EVENTS_FILE                         "data/events.banana"
+
+// Operazioni Menu
+#define MENU_INTERNAL_ERROR                  0
+#define MENU_PROGRAM_EXIT                   -1
+#define MENU_GOTO_MAIN_MENU                 -2
+#define MENU_GO_BACK                        -3
+#define MENU_NO_TICKETS_FOUND_ERROR         -4
+#define MENU_LOGIN_SUCCESS                  -5
 
 #pragma endregion
 
@@ -62,7 +70,6 @@
 typedef struct {
     int ticketId;
     int eventId;
-    int seat;
     int price;
 } Ticket;
 
