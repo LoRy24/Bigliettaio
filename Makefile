@@ -1,4 +1,4 @@
-FILES = ./src/app/main.c ./src/app/utils.c ./src/app/forms/forms.c ./src/app/forms/prompts/login.c ./src/app/forms/prompts/main-menu.c ./src/app/forms/prompts/buy-ticket.c ./src/app/logic/auth.c ./src/app/logic/events-file.c ./src/app/logic/money.c ./src/app/forms/prompts/tickets.c
+FILES = ./src/app/main.c ./src/app/utils.c ./src/app/forms/forms.c ./src/app/forms/prompts/login.c ./src/app/forms/prompts/main-menu.c ./src/app/forms/prompts/buy-ticket.c ./src/app/logic/auth.c ./src/app/logic/events-file.c ./src/app/logic/money.c ./src/app/forms/prompts/tickets.c ./src/app/forms/prompts/checkout.c
 
 build:
 	gcc -o ./out/program.exe -I./src/includes $(FILES)
