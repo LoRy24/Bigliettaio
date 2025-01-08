@@ -47,10 +47,13 @@
 #define KEY_CTRL_X                          24
 #define KEY_ARROWS                          224
 
-// Files
+// Cartelle
 #define DATA_FOLDER                         "data"
 #define USERS_FOLDER                        "data/users"
+
+// Files
 #define EVENTS_FILE                         "data/events.banana"
+#define STATS_FILE                          "data/stats.banana"
 
 // Operazioni Menu
 #define MENU_INTERNAL_ERROR                  0
@@ -113,6 +116,13 @@ typedef struct {
     char username[33]; // Max 32 caratteri
     char password[33]; // Max 32 caratteri
 } Credentials;
+
+typedef struct {
+    long int soldTickets;
+    double totalEarnings; // (provvigione + biglietto) + tasse = INTROITI
+    double profits; // parte di provvigione del netto (profitto)
+    double taxes; // tasse sulle vendite
+} SellsStats;
 
 #pragma endregion
 

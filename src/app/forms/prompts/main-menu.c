@@ -99,6 +99,22 @@ void printMainMenuForm(int logged, Account userAccount) {
     printWhiteSpace();
     printLine();
 
+    // Spaziatura
+    printWhiteSpace();
+
+    // Stats dei biglietti venduti
+    SellsStats stats = getSellsStats();
+
+    // Scrivi il numero di biglietti venduti totali
+    char* text = malloc(128);
+    sprintf(text, "Biglietti venduti dalla piattaforma: %d", stats.soldTickets);
+    printCenteredText(text);
+    free(text);
+
+    // Fine box
+    printWhiteSpace();
+    printLine();
+
     // Azzera il cursore
     moveCursor(0, 0);
 }
@@ -113,6 +129,9 @@ void launchMainMenu(int* logged, Account* userAccount) {
 
     // Stampa il form principale
     printMainMenuForm(*logged, *userAccount);
+
+    SellsStats stats = getSellsStats();
+    printf("Totale guadagnato: %f\n", stats.profits);
 
     // Inizia il ciclo di richiesta
     do {

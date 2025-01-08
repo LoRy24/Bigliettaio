@@ -29,6 +29,7 @@
 #include "utils.h"
 #include "logic/money.h"
 #include "logic/events-file.h"
+#include "logic/stats.h"
 
 // Definizione form width
 int FORM_WIDTH;

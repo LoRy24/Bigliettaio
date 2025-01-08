@@ -258,9 +258,15 @@ int launchCheckoutMenu(Event event, Account buyer, int sFullPrice, int sO65, int
     // Prezzo evento
     float eventPrice = event.price;
     float totalPrice = calculateFullPrice(eventPrice) * sFullPrice + calculateO65Price(eventPrice) * sO65 + calculateU14Price(eventPrice) * sU14;
-    
+    float taxes = totalPrice * IVA / 100;
+
     // Aggiungi iva al prezzo
-    totalPrice += totalPrice * IVA / 100;
+    totalPrice += taxes;
+
+    // Calcola le tre provvigioni
+    float profitFullPrice = calculateFullPrice(eventPrice) * sFullPrice - eventPrice * sFullPrice;
+    float profitO65 = calculateO65Price(eventPrice) * sO65 - eventPrice * sO65;
+    float profitU14 = calculateU14Price(eventPrice) * sU14 - eventPrice * sU14;
 
     // Stampa il menu
     printCheckoutMenu(event.name, totalPrice);
@@ -325,6 +331,9 @@ int launchCheckoutMenu(Event event, Account buyer, int sFullPrice, int sO65, int
 
             // Notifica del pagamento avvenuto
             system("cls");
+
+            // Annota i soldi
+            addSoldTickets(sFullPrice + sO65 + sU14, totalPrice, profitFullPrice + profitO65 + profitU14, taxes);
 
             // TODO processa l'ordine
 
