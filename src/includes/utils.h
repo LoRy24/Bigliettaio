@@ -47,6 +47,15 @@ float calculateCommission(float price, float percentage);
  */
 void clearStringBuffer(char* buffer, int length);
 
+/**
+ * Questa funzione permette di verificare se una data è valida.
+ * Formato validazione: mmyyyy
+ * 
+ * @param date La data da verificare
+ * @return 1 se la data è valida, -1 se il mese non è valido, -2 se la carta è scaduta
+ */
+int isDateValid(char* date);
+
 #pragma endregion
 
 #endif

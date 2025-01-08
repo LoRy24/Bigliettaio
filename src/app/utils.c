@@ -49,4 +49,38 @@ void clearStringBuffer(char* buffer, int length) {
     }
 }
 
+int isDateValid(char* date) {
+    // Definisco le stringhe per il mese e l'anno
+    char month[3] = {date[0], date[1], '\0'};
+    char year[5] = {date[2], date[3], date[4], date[5], '\0'};
+
+    // Converto il mese e l'anno in interi
+    int monthInt = atoi(month);
+    int yearInt = atoi(year);
+
+    // Controllo se il mese è valido
+    if (monthInt < 1 || monthInt > 12) {
+        return -1;
+    }
+
+    // Ottengo l'anno corrente e il mese corrente
+    time_t t = time(NULL);
+    struct tm tm = *localtime(&t);
+    int currentYear = tm.tm_year + 1900;
+    int currentMonth = tm.tm_mon + 1;
+
+    // Controllo se l'anno è valido
+    if (yearInt < currentYear) {
+        return -2;
+    }
+
+    // Se l'anno è uguale all'anno corrente, controllo il mese
+    if (yearInt == currentYear && monthInt < currentMonth) {
+        return -2;
+    }
+
+    // Tutto ok
+    return 0;
+}
+
 #pragma endregion
