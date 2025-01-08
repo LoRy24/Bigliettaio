@@ -118,7 +118,7 @@ typedef struct {
 } Credentials;
 
 typedef struct {
-    long int soldTickets;
+    long int soldTickets; // Biglietti venduti
     double totalEarnings; // (provvigione + biglietto) + tasse = INTROITI
     double profits; // parte di provvigione del netto (profitto)
     double taxes; // tasse sulle vendite
