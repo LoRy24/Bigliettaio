@@ -215,6 +215,9 @@ void displayEventCard(Event event, int selected, int eventsCount, int updateCurs
         sprintf(text, "-> %d/%d Eventi Visualizzati <-", selected + 1, eventsCount);
         printCenteredText(text);
     }
+
+    // Azzera il cursore
+    moveCursor(0, 0);
 }
 
 void printTicketsMenuForm(Event displayEvent, int eventsCount, int selected) {
@@ -318,10 +321,18 @@ int launchTicketsMenu(Account buyer) {
 
         // Se il carattere è invio, seleziona l'evento
         if (c == KEY_ENTER) {
+            // Lancia il menu di acquisto
             int purchaseMenuExitStatus = launchTicketPurchaseMenu(events[selectedTicket], buyer);
 
             // Casi di uscita
             if (purchaseMenuExitStatus == MENU_GO_BACK) { // Torna a questo menu
+                // Pulisci lo schermo (per sicurezza)
+                system("cls");
+
+                // Mostra il form
+                printTicketsMenuForm(events[selectedTicket], tickets, selectedTicket);
+
+                // Continua
                 continue;
             }
             else if (purchaseMenuExitStatus == MENU_GOTO_MAIN_MENU) { // Torna a menu principale post acquisto
