@@ -35,6 +35,7 @@
 #define ERROR_CARD_DETAILS_TOO_SHORT        "Inserisci tutti i dettagli della carta!"
 #define ERROR_CARD_DETAILS_INVALID_DATE     "Data di scadenza non valida!"
 #define ERROR_CARD_EXPIRED                  "Carta scaduta!"
+#define ERROR_NO_SEATS_AVAILABLE             "Non ci sono posti disponibili per questo evento!"
 
 // Tasti
 #define KEY_ENTER                           13

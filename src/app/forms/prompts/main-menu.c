@@ -130,9 +130,6 @@ void launchMainMenu(int* logged, Account* userAccount) {
     // Stampa il form principale
     printMainMenuForm(*logged, *userAccount);
 
-    SellsStats stats = getSellsStats();
-    printf("Totale guadagnato: %f\n", stats.profits);
-
     // Inizia il ciclo di richiesta
     do {
         // Leggi carattere da tastiera

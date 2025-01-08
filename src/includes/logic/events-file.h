@@ -49,6 +49,14 @@ void createEventAtIndex(Event event, int eventIndex);
  */
 void deleteEvent(int eventIndex);
 
+int getFirstAvailableId();
+
+void deleteEventByEventId(int eventId);
+
+void updateEventByEventId(int eventId, Event newEvent);
+
+void removeTicketsFromEvent(Event event, int amount);
+
 #pragma endregion
 
 #endif

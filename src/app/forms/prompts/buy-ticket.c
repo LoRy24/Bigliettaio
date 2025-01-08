@@ -330,7 +330,7 @@ int launchTicketPurchaseMenu(Event selectedEvent, Account buyer) {
             // Se è una freccia destra o sinistra, aggiorna i valori
             if (c == KEY_LEFT_ARROW || c == KEY_RIGHT_ARROW) {
                 // Gestisci l'update del valore
-                if ((c == KEY_RIGHT_ARROW && selectedTickets[editingParameter] != 20) || (c == KEY_LEFT_ARROW && selectedTickets[editingParameter] != 0)) {
+                if ((c == KEY_RIGHT_ARROW && selectedTickets[editingParameter] != 20 && selectedEvent.freeSeats - (selectedTickets[0] + selectedTickets[1] + selectedTickets[2]) > 0) || (c == KEY_LEFT_ARROW && selectedTickets[editingParameter] != 0)) {
                     // Aumenta il valore
                     selectedTickets[editingParameter] += c == KEY_RIGHT_ARROW && selectedTickets[editingParameter] != 20 ? 1 : -1;
 

@@ -335,6 +335,9 @@ int launchCheckoutMenu(Event event, Account buyer, int sFullPrice, int sO65, int
             // Annota i soldi
             addSoldTickets(sFullPrice + sO65 + sU14, totalPrice, profitFullPrice + profitO65 + profitU14, taxes);
 
+            // Rimuovi i posti dall'evento
+            removeTicketsFromEvent(event, sFullPrice + sO65 + sU14);
+
             // TODO processa l'ordine
 
             // Stampa il menu
