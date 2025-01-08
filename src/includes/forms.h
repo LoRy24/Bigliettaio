@@ -19,6 +19,7 @@
 #include "forms/main-menu.h"
 #include "forms/tickets.h"
 #include "forms/buy-ticket.h"
+#include "forms/checkout.h"
 
 #pragma endregion
 
