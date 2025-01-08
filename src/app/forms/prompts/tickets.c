@@ -201,10 +201,23 @@ void printTicketCard(Event event, int row) {
 
 #pragma region Form
 
-void displayEventCard(Event event) {
+void displayEventCard(Event event, int selected, int eventsCount, int updateCursor) {
     // Stampa l'evento
     printTicketCard(event, 10);
     writeSelectionArrows(0);
+
+    if (updateCursor) {
+        // Cambia la riga del cursore
+        moveCursor(0, 23);
+
+        // Scrivi la riga della selezione
+        char* text = malloc(128);
+        sprintf(text, "-> %d/%d Eventi Visualizzati <-", selected + 1, eventsCount);
+        printCenteredText(text);
+    }
+
+    // Azzera il cursore
+    moveCursor(0, 0);
 }
 
 void printTicketsMenuForm(Event displayEvent, int eventsCount, int selected) {
@@ -218,7 +231,7 @@ void printTicketsMenuForm(Event displayEvent, int eventsCount, int selected) {
     printWhiteSpace();
 
     // Mostra l'evento
-    displayEventCard(displayEvent);
+    displayEventCard(displayEvent, selected, eventsCount, 0);
     
     // Azzera il cursore
     moveCursor(0, 22);
@@ -240,28 +253,106 @@ void printTicketsMenuForm(Event displayEvent, int eventsCount, int selected) {
     // Fine menu
     printWhiteSpace();
     printLine();
+
+    // Azzera cursore
+    moveCursor(0, 0);
 }
 
-int launchTicketsMenu() {
+int launchTicketsMenu(Account buyer) {
+    // Valori funzionali
+    int selectedTicket = 0;
+
     // Stampa il form
     system("cls");
 
-    Event event;
-    strcpy(event.name, "Gli scrocconi");
-    strcpy(event.location, "Magi");
-    strcpy(event.date, "25/02/2025");
-    strcpy(event.time, "20:30");
-    event.totalSeats = 100;
-    event.freeSeats = 32;
-    event.price = 69.69;
+    // Eventi
+    int tickets;
+    Event* events = loadEvents(&tickets);
 
-    printTicketsMenuForm(event, 1, 0);
-
-    while (1) {
-        
+    // Se i tickets caricati sono 0, esci
+    if (tickets == 0) {
+        return MENU_NO_TICKETS_FOUND_ERROR;
     }
 
-    return 2;
+    // Mostra il form
+    printTicketsMenuForm(events[selectedTicket], tickets, selectedTicket);
+
+    // Loop operazioni
+    while (1) {
+        // Leggi carattere da tastiera
+        int c = _getch();
+
+        // Verifica se è una freccia (destra o sinistra)
+        if (c == KEY_ARROWS) {
+            // Legge il secondo carattere, che identifica la freccietta
+            c = _getch();
+
+            // Se non è nessuna delle due freccie, continua
+            if (c != KEY_LEFT_ARROW && c != KEY_RIGHT_ARROW) {
+                continue;
+            }
+
+            // Se è freccia destra ma ci si trova alla fine o freccia sinistra ma ci si trova all'inizio, continua
+            if ((c == KEY_RIGHT_ARROW && selectedTicket == tickets - 1) || (c == KEY_LEFT_ARROW && selectedTicket == 0)) {
+                continue;
+            }
+
+            // Modifica la selezione
+            selectedTicket += (c == KEY_RIGHT_ARROW) ? 1 : -1;
+
+            // Mostra il biglietto
+            displayEventCard(events[selectedTicket], selectedTicket, tickets, 1);
+
+            // Continua
+            continue;
+        }
+
+        // Se equivale a CTRL + X, esci
+        if (c == KEY_CTRL_X) {
+            system("cls");
+            return MENU_PROGRAM_EXIT;
+        }
+
+        // Se il carattere è esc, torna al menu principale
+        if (c == KEY_ESCAPE) {
+            system("cls");
+            return MENU_GO_BACK;
+        }
+
+        // Se il carattere è invio, seleziona l'evento
+        if (c == KEY_ENTER) {
+            // Lancia il menu di acquisto
+            int purchaseMenuExitStatus = launchTicketPurchaseMenu(events[selectedTicket], buyer);
+
+            // Casi di uscita
+            if (purchaseMenuExitStatus == MENU_GO_BACK) { // Torna a questo menu
+                // Pulisci lo schermo (per sicurezza)
+                system("cls");
+
+                // Mostra il form
+                printTicketsMenuForm(events[selectedTicket], tickets, selectedTicket);
+
+                // Continua
+                continue;
+            }
+            else if (purchaseMenuExitStatus == MENU_GOTO_MAIN_MENU) { // Torna a menu principale post acquisto
+                system("cls");
+                return MENU_GO_BACK; // Menu principale
+            }
+            else if (purchaseMenuExitStatus == MENU_PROGRAM_EXIT) { // Uscita dal programma
+                system("cls");
+                return MENU_PROGRAM_EXIT; // Uscita
+            }
+            else {
+                // Errore interno
+                system("cls");
+                return MENU_INTERNAL_ERROR;
+            }
+        }
+    }
+
+    // Torna endre
+    return MENU_GO_BACK;
 }
 
 #pragma endregion

@@ -30,6 +30,11 @@
 #define ERROR_MESSAGE_INVALID_CREDENTIALS   "Credenziali non valide!"
 #define ERROR_MESSAGE_EMPTY_PASSWORD        "La password non può essere vuota!"
 #define ERROR_MESSAGE_EMPTY_USERNAME        "L'username non può essere vuoto!"
+#define ERROR_NO_TICKETS_FOUND              "Nessun biglietto trovato! Errore interno."
+#define ERROR_MESSAGE_NO_TICKET_SELECTED    "Devi comprare almeno un biglietto!"
+#define ERROR_CARD_DETAILS_TOO_SHORT        "Inserisci tutti i dettagli della carta!"
+#define ERROR_CARD_DETAILS_INVALID_DATE     "Data di scadenza non valida!"
+#define ERROR_CARD_EXPIRED                  "Carta scaduta!"
 
 // Tasti
 #define KEY_ENTER                           13
@@ -37,11 +42,26 @@
 #define KEY_ESCAPE                          27
 #define KEY_UP_ARROW                        72
 #define KEY_DOWN_ARROW                      80
+#define KEY_LEFT_ARROW                      75
+#define KEY_RIGHT_ARROW                     77
 #define KEY_CTRL_X                          24
 #define KEY_ARROWS                          224
 
 // Files
 #define DATA_FOLDER                         "data"
+#define USERS_FOLDER                        "data/users"
+#define EVENTS_FILE                         "data/events.banana"
+
+// Operazioni Menu
+#define MENU_INTERNAL_ERROR                  0
+#define MENU_PROGRAM_EXIT                   -1
+#define MENU_GOTO_MAIN_MENU                 -2
+#define MENU_GO_BACK                        -3
+#define MENU_NO_TICKETS_FOUND_ERROR         -4
+#define MENU_LOGIN_SUCCESS                  -5
+
+// Tasse
+#define IVA                                 22.0f
 
 #pragma endregion
 
@@ -55,24 +75,23 @@
  * Struttura per gestire un biglietto
  */
 typedef struct {
-    uint64_t ticketId;
-    uint32_t eventId;
-    uint32_t seat;
-    uint16_t price;
+    int ticketId;
+    int eventId;
+    int price;
 } Ticket;
 
 /**
  * Struttura per gestire un evento
  */
 typedef struct {
-    uint32_t eventId;
+    int eventId;
     char name[33]; // Max 32 caratteri
     char location[33]; // Max 32 caratteri
     char date[11]; // Formato: DD/MM/YYYY
     char time[6]; // Formato: HH:MM
     float price;
-    uint16_t freeSeats;
-    uint16_t totalSeats;
+    int freeSeats;
+    int totalSeats;
 } Event;
 
 /**

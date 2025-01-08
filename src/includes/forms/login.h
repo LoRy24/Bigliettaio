@@ -70,6 +70,7 @@ void printLoginMenuForm(int selected);
  * Avvia il menu di login
  * 
  * @param credentials Le credenziali dell'utente
+ * @return int Il codice di uscita del form
  */
 int launchLoginMenu(Credentials* credentials);
 

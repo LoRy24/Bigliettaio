@@ -21,12 +21,14 @@
 #include <conio.h>
 #include <errno.h>
 #include <windows.h>
+#include <io.h>
 
 // Librerie Progetto
 #include "definitions.h"
 #include "forms.h"
 #include "utils.h"
 #include "logic/money.h"
+#include "logic/events-file.h"
 
 // Definizione form width
 int FORM_WIDTH;

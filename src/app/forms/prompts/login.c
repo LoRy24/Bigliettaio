@@ -204,12 +204,12 @@ int launchLoginMenu(Credentials* credentials) {
 
         // Se il carattere è CTRL_X, esci dal programma
         if (c == KEY_CTRL_X) {
-            return 1;
+            return MENU_PROGRAM_EXIT;
         }
 
         // Se il carattere è esc, torna al menu principale
         if (c == KEY_ESCAPE) {
-            return 2;
+            return MENU_GO_BACK;
         }
 
         // Se il carattere è invio, esegui il login
@@ -244,7 +244,7 @@ int launchLoginMenu(Credentials* credentials) {
     sprintf(credentials->password, "%s", campi[1]);
 
     // Torna al menu principale
-    return 0;
+    return MENU_LOGIN_SUCCESS;
 }
 
 #pragma endregion

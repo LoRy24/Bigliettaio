@@ -60,10 +60,13 @@ int main() {
     // Setup dei files
     int result = createFolders();
 
+    // Crea file eventi
+    int eventsFileCreation = createEventsFile();
+
     // Controllo se è andato tutto bene
-    if (result != 0) {
+    if (result != 0 || eventsFileCreation != 0) {
         // Stampa un errore
-        printf("Errore durante la creazione delle cartelle necessarie per il funzionamento del programma.\n");
+        printf("Errore durante la creazione delle risorse necessarie per il funzionamento del programma.\n");
 
         // Esci dal programma
         return 1;
@@ -174,6 +177,14 @@ int createFolders() {
     // Controllo se la cartella è stata creata
     if (s1 != 0 && errno != EEXIST) {
         return 1;
+    }
+
+    // Crea la cartella degli utenti
+    int s2 = mkdir(USERS_FOLDER);
+
+    // Controllo se la cartella è stata creata
+    if (s2 != 0 && errno != EEXIST) {
+        return 2;
     }
 
     // Tutto ok
