@@ -257,7 +257,22 @@ void launchMainMenu(int* logged, Account* userAccount) {
         
             // Pannello di gestione
             case '5': {
-                printErrorMessageMainMenu(ERROR_MESSAGE_NOT_IMPLEMENTED);
+                // Se l'utente non è autenticato, dai un errore
+                if (*logged == 0) {
+                    printErrorMessageMainMenu(ERROR_MESSAGE_NOT_LOGGED);
+                    break;
+                }
+
+                // Lancia il form di amministrazione
+                int adminMenu = launchAdminMenu(*userAccount);
+
+                // Pulisci schermo
+                system("cls");
+
+                // Ristampa il form principale
+                printMainMenuForm(*logged, *userAccount);
+
+                // Continua
                 break;
             }
 
