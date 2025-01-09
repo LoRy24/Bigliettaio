@@ -269,8 +269,21 @@ void launchMainMenu(int* logged, Account* userAccount) {
                 // Pulisci schermo
                 system("cls");
 
+                // Gestisci operazioni
+                if (adminMenu == MENU_PROGRAM_EXIT) {
+                    goto mainMenuEnd;
+                }
+
                 // Ristampa il form principale
                 printMainMenuForm(*logged, *userAccount);
+
+                // Se si vuole tornare a questo menu
+                if (adminMenu == MENU_GO_BACK) {
+                    break;
+                }
+
+                // Errore interno
+                printErrorMessageMainMenu(ERROR_MESSAGE_INTERNAL_ERROR);
 
                 // Continua
                 break;
