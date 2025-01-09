@@ -99,6 +99,22 @@ void printMainMenuForm(int logged, Account userAccount) {
     printWhiteSpace();
     printLine();
 
+    // Spaziatura
+    printWhiteSpace();
+
+    // Stats dei biglietti venduti
+    SellsStats stats = getSellsStats();
+
+    // Scrivi il numero di biglietti venduti totali
+    char* text = malloc(128);
+    sprintf(text, "Biglietti venduti dalla piattaforma: %d", stats.soldTickets);
+    printCenteredText(text);
+    free(text);
+
+    // Fine box
+    printWhiteSpace();
+    printLine();
+
     // Azzera il cursore
     moveCursor(0, 0);
 }
@@ -241,7 +257,35 @@ void launchMainMenu(int* logged, Account* userAccount) {
         
             // Pannello di gestione
             case '5': {
-                printErrorMessageMainMenu(ERROR_MESSAGE_NOT_IMPLEMENTED);
+                // Se l'utente non è autenticato, dai un errore
+                if (*logged == 0) {
+                    printErrorMessageMainMenu(ERROR_MESSAGE_NOT_LOGGED);
+                    break;
+                }
+
+                // Lancia il form di amministrazione
+                int adminMenu = launchAdminMenu(*userAccount);
+
+                // Pulisci schermo
+                system("cls");
+
+                // Gestisci operazioni
+                if (adminMenu == MENU_PROGRAM_EXIT) {
+                    goto mainMenuEnd;
+                }
+
+                // Ristampa il form principale
+                printMainMenuForm(*logged, *userAccount);
+
+                // Se si vuole tornare a questo menu
+                if (adminMenu == MENU_GO_BACK) {
+                    break;
+                }
+
+                // Errore interno
+                printErrorMessageMainMenu(ERROR_MESSAGE_INTERNAL_ERROR);
+
+                // Continua
                 break;
             }
 

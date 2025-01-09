@@ -170,4 +170,86 @@ void deleteEvent(int eventIndex) {
     fclose(file);
 }
 
+int getFirstAvailableId() {
+    // Legge il numero di eventi
+    int eventsCount;
+
+    // Alloca la memoria per gli eventi
+    Event* events = loadEvents(&eventsCount);
+
+    // Cerca il primo id disponibile
+    for (int i = 0; i < eventsCount; i++) {
+        if (events[i].eventId != i + 1) {
+            return i + 1;
+        }
+    }
+
+    // Ritorna l'ultimo id + 1
+    return eventsCount + 1;
+}
+
+void deleteEventByEventId(int eventId) {
+    // Legge il numero di eventi
+    int eventsCount;
+
+    // Alloca la memoria per gli eventi
+    Event* events = loadEvents(&eventsCount);
+
+    // Apre il file in scrittura
+    FILE* file = fopen(EVENTS_FILE, "wb");
+
+    // Decrementa il numero di eventi
+    eventsCount--;
+
+    // Scrive il numero di eventi
+    fwrite(&eventsCount, sizeof(int), 1, file);
+
+    // Scrive gli eventi
+    for (int i = 0; i < eventsCount + 1; i++) {
+        if (events[i].eventId == eventId) {
+            continue;
+        }
+
+        fwrite(&events[i], sizeof(Event), 1, file);
+    }
+
+    // Chiude il file
+    fclose(file);
+}
+
+void updateEventByEventId(int eventId, Event newEvent) {
+    // Legge il numero di eventi
+    int eventsCount;
+
+    // Alloca la memoria per gli eventi
+    Event* events = loadEvents(&eventsCount);
+
+    // Apre il file in scrittura
+    FILE* file = fopen(EVENTS_FILE, "wb");
+
+    // Scrive il numero di eventi
+    fwrite(&eventsCount, sizeof(int), 1, file);
+
+    // Scrive gli eventi
+    for (int i = 0; i < eventsCount; i++) {
+        if (events[i].eventId == eventId) {
+            fwrite(&newEvent, sizeof(Event), 1, file);
+            continue;
+        }
+
+        fwrite(&events[i], sizeof(Event), 1, file);
+    }
+
+    // Chiude il file
+    fclose(file);
+}
+
+void removeTicketsFromEvent(Event event, int amount) {
+    // Aggiorna l'evento
+    event.freeSeats -= amount;
+
+    // Aggiorna l'evento
+    updateEventByEventId(event.eventId, event);
+}
+
 #pragma endregion

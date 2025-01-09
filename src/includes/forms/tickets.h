@@ -34,18 +34,31 @@
 void writeArrowsShape(int cardIndex, char c1, char c2);
 
 /**
- * Cancella le frecce di selezione
- * 
- * @param cardIndex Indice della card
- */
-void clearSelectionArrows(int cardIndex);
-
-/**
  * Stampa le frecce di selezione
  * 
  * @param cardIndex Indice della card
  */
 void writeSelectionArrows(int cardIndex);
+
+// Scrittura card
+
+/**
+ * Formatta i soldi per il display dei prezzi
+ * 
+ * @param amount Importo da formattare
+ * @return char* Testo formattato
+ */
+char* formatMoney(float amount);
+
+/**
+ * Stampa una linea della card
+ */
+void printCardStraightLine();
+
+/**
+ * Stampa una linea vuota della card
+ */
+void printCardEmptyLine();
 
 /**
  * Seleziona una card

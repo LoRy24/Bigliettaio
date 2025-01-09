@@ -23,6 +23,49 @@
 #pragma region Prototipi Funzioni
 
 /**
+ * Stampa un messaggio di errore per il form di checkout
+ * 
+ * @param message Messaggio di errore
+ */
+void printErrorMessageCheckout(char* message);
+
+/**
+ * Stampa i dettagli della carta di credito nel seguente formato:
+ * 
+ *                Dettagli Carta
+ * ----------------------- ----------- ---------
+ * Numero Carta            Scadenza    CVV      
+ * ____ ____ ____ ____     __/____     ___      
+ *
+ * Nome sulla carta
+ * _____________________________________________
+ * 
+ * Dove al posto delle linee sono presenti i dettagli della carta di credito o debito. I
+ * dettagli sono passati come parametro tutti consecutivamente.
+ * 
+ * @param details Dettagli della carta di credito
+ */
+void printDebitCardDetails(char* details);
+
+/**
+ * Stampa il menu di checkout per l'acquisto dei biglietti
+ * 
+ * @param eventName Nome dell'evento
+ * @param totalPrice Prezzo totale
+ */
+void printCheckoutMenu(char* eventName, float totalPrice);
+
+/**
+ * Stampa il menu di successo per il checkout
+ * 
+ * @param orderId ID dell'ordine
+ * @param eventName Nome dell'evento
+ * @param tickets Numero di biglietti acquistati
+ * @param paidAmount Importo pagato
+ */
+void printCheckoutSuccessMenu(int orderId, char* eventName, int tickets, float paidAmount);
+
+/**
  * Lancia il menu di checkout per l'acquisto dei biglietti precedentemente selezionati
  * 
  * @param event Evento selezionato

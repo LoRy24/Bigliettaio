@@ -35,6 +35,7 @@
 #define ERROR_CARD_DETAILS_TOO_SHORT        "Inserisci tutti i dettagli della carta!"
 #define ERROR_CARD_DETAILS_INVALID_DATE     "Data di scadenza non valida!"
 #define ERROR_CARD_EXPIRED                  "Carta scaduta!"
+#define ERROR_NO_SEATS_AVAILABLE             "Non ci sono posti disponibili per questo evento!"
 
 // Tasti
 #define KEY_ENTER                           13
@@ -47,10 +48,13 @@
 #define KEY_CTRL_X                          24
 #define KEY_ARROWS                          224
 
-// Files
+// Cartelle
 #define DATA_FOLDER                         "data"
 #define USERS_FOLDER                        "data/users"
+
+// Files
 #define EVENTS_FILE                         "data/events.banana"
+#define STATS_FILE                          "data/stats.banana"
 
 // Operazioni Menu
 #define MENU_INTERNAL_ERROR                  0
@@ -113,6 +117,16 @@ typedef struct {
     char username[33]; // Max 32 caratteri
     char password[33]; // Max 32 caratteri
 } Credentials;
+
+/**
+ * Struttura per le statistiche di vendita
+ */
+typedef struct {
+    long int soldTickets; // Biglietti venduti
+    double totalEarnings; // (provvigione + biglietto) + tasse = INTROITI
+    double profits; // parte di provvigione del netto (profitto)
+    double taxes; // tasse sulle vendite
+} SellsStats;
 
 #pragma endregion
 

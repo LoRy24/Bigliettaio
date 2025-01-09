@@ -156,6 +156,7 @@ void printCardPrices(float basePrice) {
     char* priceString = malloc(62);
     sprintf(priceString, "    |        %s  %s   %s        |    ", fullPrice, over65Price, under14Price);
     printCenteredText(priceString);
+    free(priceString);
 }
 
 void printTicketCard(Event event, int row) {
@@ -170,16 +171,28 @@ void printTicketCard(Event event, int row) {
     char* eventName = malloc(65);
     sprintf(eventName, "Evento: %s", event.name);
     printCardCenteredText(eventName);
+    free(eventName);
 
     // Altri dettagli
     char* eventDetails = malloc(65);
     sprintf(eventDetails, "-> %s - %s ~ %s", event.location, event.date, event.time);
     printCardCenteredText(eventDetails);
+    free(eventDetails);
 
     // Posti disponibili
     char* seats = malloc(65);
     sprintf(seats, "Posti disponibili: %d su %d", event.freeSeats, event.totalSeats);
+
+    // Se i posti liberi sono 0, scrive SOLD OUT
+    if (event.freeSeats == 0) {
+        sprintf(seats, "SOLD OUT");
+    }
+
+    // Scrivi il testo
     printCardCenteredText(seats);
+
+    // Libera la memoria
+    free(seats);
 
     // Prezzi
     printCardEmptyLine();
@@ -321,6 +334,12 @@ int launchTicketsMenu(Account buyer) {
 
         // Se il carattere è invio, seleziona l'evento
         if (c == KEY_ENTER) {
+            // Vedi se ci sono posti disponibili
+            if (events[selectedTicket].freeSeats == 0) {
+                // Errore
+                continue;
+            }
+
             // Lancia il menu di acquisto
             int purchaseMenuExitStatus = launchTicketPurchaseMenu(events[selectedTicket], buyer);
 

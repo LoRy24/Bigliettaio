@@ -49,6 +49,36 @@ void createEventAtIndex(Event event, int eventIndex);
  */
 void deleteEvent(int eventIndex);
 
+/**
+ * Ottiene il primo ID disponibile per un evento
+ * 
+ * @return ID disponibile
+ */
+int getFirstAvailableId();
+
+/**
+ * Elimina un evento tramite l'ID
+ * 
+ * @param eventId ID dell'evento
+ */
+void deleteEventByEventId(int eventId);
+
+/**
+ * Aggiorna un evento tramite l'ID
+ * 
+ * @param eventId ID dell'evento
+ * @param newEvent Nuovo evento
+ */
+void updateEventByEventId(int eventId, Event newEvent);
+
+/**
+ * Rimuove i biglietti da un evento
+ * 
+ * @param event Evento
+ * @param amount Quantità di biglietti da rimuovere
+ */
+void removeTicketsFromEvent(Event event, int amount);
+
 #pragma endregion
 
 #endif

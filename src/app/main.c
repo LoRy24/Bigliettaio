@@ -63,8 +63,11 @@ int main() {
     // Crea file eventi
     int eventsFileCreation = createEventsFile();
 
+    // Crea file statistiche
+    int statsFileCreation = createStatsFile();
+
     // Controllo se è andato tutto bene
-    if (result != 0 || eventsFileCreation != 0) {
+    if (result != 0 || eventsFileCreation != 0 || statsFileCreation != 0) {
         // Stampa un errore
         printf("Errore durante la creazione delle risorse necessarie per il funzionamento del programma.\n");
 
