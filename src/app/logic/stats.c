@@ -46,6 +46,9 @@ int createStatsFile() {
 
     // Chiudi il file
     fclose(file);
+
+    // Ritorna 0
+    return 0;
 }
 
 SellsStats getSellsStats() {

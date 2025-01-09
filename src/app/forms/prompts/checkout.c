@@ -33,22 +33,6 @@ void printErrorMessageCheckout(char* message) {
     moveCursor(0, 0);
 }
 
-//
-//                 Dettagli Carta
-// ----------------------- ----------- ---------
-// Numero Carta            Scadenza    CVV      
-// ____ ____ ____ ____     __/____     ___      
-//
-// Nome sulla carta
-// _____________________________________________
-//
-
-// Dettagli in details:
-// numerocarta scadenza cvv nome sulla carta
-// ES:
-// NUMERO----------SCAD--CVVNome-----------------
-// 0000111122223333122025123Lorenzo Rocca
-// Massimo 70 caratteri
 void printDebitCardDetails(char* details) {
     // Sposta il cursore
     moveCursor(0, 17);

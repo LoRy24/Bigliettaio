@@ -118,6 +118,9 @@ typedef struct {
     char password[33]; // Max 32 caratteri
 } Credentials;
 
+/**
+ * Struttura per le statistiche di vendita
+ */
 typedef struct {
     long int soldTickets; // Biglietti venduti
     double totalEarnings; // (provvigione + biglietto) + tasse = INTROITI
