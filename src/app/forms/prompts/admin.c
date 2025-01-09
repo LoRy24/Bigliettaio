@@ -13,10 +13,26 @@
 #pragma endregion
 
 //
-// Checkout Form
+// Admin form
 //
 
 #pragma region Form
+
+void printErrorMessageAdminMenu(char* message) {
+    // Prepara il messaggio di errore
+    char* text = malloc(strlen(message) + 16);
+    sprintf(text, "-> Errore! %s <-", message);
+
+    // Stampa il messaggio di errore
+    moveCursor(0, 10);
+    printCenteredText(text);
+
+    // Pulisci la memoria
+    free(text);
+
+    // Azzera il cursore
+    moveCursor(0, 0);
+}
 
 void printAdminMenu(Account account) {
     // Intestazione
@@ -34,6 +50,9 @@ void printAdminMenu(Account account) {
     sprintf(accountText, "Account: %s %s", account.name, account.surname);
     printCenteredText(accountText);
     free(accountText);
+
+    // Indicazioni uso menu
+    printCenteredText("-> Usa i tasti esposti per navigare <-"); // Riga 10
 
     // Spaziatura
     printWhiteSpace();
@@ -105,8 +124,40 @@ int launchAdminMenu(Account account) {
     // Stampa il menu
     printAdminMenu(account);
 
-    // Attendi un input
-    int c = _getch();
+    // Gestione input
+    while (1) {
+        // Input
+        int c = _getch();
+
+        // Se uguale a esc, torna al menu precedente
+        if (c == KEY_ESCAPE) {
+            // Turna endre
+            system("cls");
+            return MENU_GO_BACK;
+        }
+
+        // Se equivale a CTRL + X, esci
+        if (c == KEY_CTRL_X) {
+            system("cls");
+            return MENU_PROGRAM_EXIT;
+        }
+
+        // Gestisci altri input
+        switch (c) {
+            case '1':
+            case '2': {
+                // Non implementato
+                printErrorMessageAdminMenu(ERROR_MESSAGE_NOT_IMPLEMENTED);
+                break;
+            }
+
+            default: {
+                // Errore di comando non trovato
+                printErrorMessageAdminMenu(ERROR_MESSAGE_INVALID_COMMAND);
+                break;
+            }
+        }
+    }
 
     // Ritorna al menu principale
     return MENU_GO_BACK;
