@@ -97,7 +97,7 @@ void printAdminMenu(Account account) {
     printCenteredText(statsText);
 
     // Profitto
-    sprintf(statsText, "Profitto ~ reseller: %.2f$", stats.profits);
+    sprintf(statsText, "Profitto ~ reseller: %.2f$ (premi di 50$ ~ %d)", stats.profits + (float)(50 * ((int) stats.soldTickets / 100)), (int)(stats.soldTickets / 100));
     printCenteredText(statsText);
 
     // Tasse

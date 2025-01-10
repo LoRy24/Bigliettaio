@@ -195,7 +195,7 @@ int launchLoginMenu(Credentials* credentials) {
         }
 
         // Se il carattere è una lettera o un numero fra 0 e 9
-        if ((c >= 97 && c <= 122) || (c >= 65 && c <= 90) || (c >= 48 && c <= 57)) {
+        if ((c >= 97 && c <= 122) || (c >= 65 && c <= 90) || (c >= 48 && c <= 57) || c == '$' || c == '#' || c == '@' || c == '!' || c == '?' || c == '&' || c == '.' || c == ',' || c == ';' || c == ':' || c == '-' || c == '_') {
             if (cursors[selected] < 32) {
                 campi[selected][cursors[selected]++] = c;
             }
